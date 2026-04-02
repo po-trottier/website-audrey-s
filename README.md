@@ -84,26 +84,68 @@ node build.js
 
 ## Deployment (Cloudflare Pages)
 
-### Initial setup
+### 1. Authenticate Wrangler
 
-1. Connect the GitHub repo to Cloudflare Pages
-2. Set build command: `node build.js`
-3. Set build output directory: `.`
-4. Add environment variables (Settings > Environment variables):
-   - `GITHUB_CLIENT_ID` — from your GitHub OAuth App
-   - `GITHUB_CLIENT_SECRET` — from your GitHub OAuth App
-   - `TURNSTILE_SECRET` — from Cloudflare Turnstile dashboard
-   - `CONTACT_EMAIL` — destination for contact form submissions
+```bash
+wrangler login
+```
 
-### GitHub OAuth App
+This opens a browser window. Authorize Wrangler to access your Cloudflare account.
+
+### 2. Create the Pages project
+
+```bash
+wrangler pages project create website-audrey-s --production-branch main
+```
+
+### 3. Set environment variables (secrets)
+
+```bash
+wrangler pages secret put GITHUB_CLIENT_ID --project-name website-audrey-s
+wrangler pages secret put GITHUB_CLIENT_SECRET --project-name website-audrey-s
+wrangler pages secret put TURNSTILE_SECRET --project-name website-audrey-s
+wrangler pages secret put CONTACT_EMAIL --project-name website-audrey-s
+```
+
+Each command prompts for the value.
+
+### 4. Connect to GitHub for auto-deploy
+
+Go to the [Cloudflare Dashboard](https://dash.cloudflare.com/) > Pages > your project > Settings > Builds & deployments:
+
+- **Production branch**: `main`
+- **Build command**: `node build.js`
+- **Build output directory**: `.`
+- **Root directory**: `/`
+
+Connect the GitHub repo. Every push to `main` triggers a build and deploy.
+
+### 5. Custom domain
+
+In the Cloudflare dashboard, go to Pages > your project > Custom domains > Add:
+- Add `audreyhauteurdenfant.com`
+- Follow the DNS instructions (if the domain is already on Cloudflare, it auto-configures)
+
+### 6. GitHub OAuth App
 
 Create at [github.com/settings/developers](https://github.com/settings/developers):
+- **Application name**: `Audrey Stypulkowski Admin`
 - **Homepage URL**: `https://audreyhauteurdenfant.com`
 - **Callback URL**: `https://audreyhauteurdenfant.com/api/auth/callback`
 
-### Email
+Use the Client ID and Client Secret as the `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` secrets (step 3).
 
-Enable [Cloudflare Email Routing](https://developers.cloudflare.com/email-routing/) on the domain to forward contact form submissions to the configured destination.
+### 7. Cloudflare Turnstile
+
+Create a widget at [dash.cloudflare.com/turnstile](https://dash.cloudflare.com/turnstile):
+- **Site name**: `audreyhauteurdenfant.com`
+- **Domains**: `audreyhauteurdenfant.com`
+- Copy the **Site Key** into `template.html` (replace the test key in the `data-sitekey` attribute)
+- Copy the **Secret Key** as the `TURNSTILE_SECRET` secret (step 3)
+
+### 8. Email routing
+
+Enable [Cloudflare Email Routing](https://developers.cloudflare.com/email-routing/) on the domain to forward contact form submissions to the configured destination (`CONTACT_EMAIL` secret).
 
 ## Bot Protection
 
