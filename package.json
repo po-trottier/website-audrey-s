@@ -1,0 +1,18 @@
+{
+  "name": "website-audrey-s",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "Site web professionnel - Audrey Stypulkowski",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js && wrangler pages dev . --port 8788",
+    "preview": "node build.js && open index.html"
+  },
+  "devDependencies": {
+    "wrangler": "^3"
+  },
+  "dependencies": {
+    "marked": "^17.0.5"
+  }
+}

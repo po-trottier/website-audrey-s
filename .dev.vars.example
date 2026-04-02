@@ -1,0 +1,13 @@
+# Copy this file to .dev.vars and fill in your values
+# .dev.vars is gitignored — never commit secrets
+
+# GitHub OAuth App (https://github.com/settings/developers)
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+
+# Cloudflare Turnstile (https://dash.cloudflare.com/turnstile)
+# Use test key for local dev: 1x0000000000000000000000000000000AA
+TURNSTILE_SECRET=
+
+# Contact form destination
+CONTACT_EMAIL=

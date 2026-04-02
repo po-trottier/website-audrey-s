@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{seo.title}}</title>
+  <meta name="description" content="{{seo.description}}">
+  <meta name="robots" content="index, follow">
+  {{#if seo.favicon}}
+  <link rel="icon" href="{{seo.favicon}}">
+  {{/if}}
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{seo.title}}">
+  <meta property="og:description" content="{{seo.description}}">
+  <meta property="og:image" content="{{seo.og_image}}">
+  <meta property="og:url" content="https://audreyhauteurdenfant.com">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_CA">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{seo.title}}">
+  <meta name="twitter:description" content="{{seo.description}}">
+  <meta name="twitter:image" content="{{seo.og_image}}">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "{{header.site_name}}",
+    "description": "{{seo.description}}",
+    "telephone": "{{contact.phone}}",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "{{contact.address}}"
+    },
+    "url": "https://audreyhauteurdenfant.com"
+  }
+  </script>
+
+</head>
+<body>
+
+  <!-- ================================================================
+       POPUP
+       ================================================================ -->
+  {{#if popup.enabled}}
+  <div class="modal-backdrop" id="popup" role="dialog" aria-modal="true" aria-labelledby="popup-title">
+    <div class="modal">
+      {{#if popup.image}}
+      <img src="{{popup.image}}" alt="" class="popup-image">
+      {{/if}}
+      <h2 id="popup-title" class="text-2xl font-bold mb-4 text-center">{{popup.title}}</h2>
+      <p class="text-light mb-6 leading-relaxed text-center">{{popup.message}}</p>
+      <button class="btn btn-primary w-full" id="popup-close">{{popup.dismiss_label}}</button>
+    </div>
+  </div>
+  {{/if}}
+
+  <!-- ================================================================
+       HEADER / NAV
+       ================================================================ -->
+  <header id="nav" class="site-nav fixed top-0 w-full transition duration-300" style="z-index: 60;">
+    <div class="container flex justify-between items-center py-4">
+      <a href="#hero" class="site-logo text-xl font-bold text-white transition">{{header.site_name}}</a>
+
+      <!-- Hamburger (mobile) -->
+      <button class="hamburger text-white" aria-label="Menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <!-- Navigation -->
+      <nav class="nav-menu text-white">
+        <a href="#services" class="nav-link">Services</a>
+        <a href="#about" class="nav-link">À propos</a>
+        <a href="#education" class="nav-link">Mesures légales</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+        <a href="#contact" class="nav-link">Contact</a>
+        <a href="{{header.cta_link}}" class="btn btn-primary">{{header.cta_text}}</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ================================================================
+       HERO
+       ================================================================ -->
+  <section id="hero" class="min-h-screen relative overflow-hidden" style="background-image: url('{{hero.image}}'); background-size: cover; background-position: center;">
+    <!-- Gradient overlay -->
+    <div class="absolute inset-0" style="background: linear-gradient(to right, rgba(26,26,46,0.85) 0%, rgba(26,26,46,0.4) 100%);"></div>
+
+    <div class="relative z-10 container flex items-center min-h-screen">
+      <div class="max-w-prose">
+        <h1 class="text-5xl font-bold text-white mb-4 leading-tight">{{hero.title}}</h1>
+        <p class="text-lg mb-8 leading-relaxed" style="color: rgba(255,255,255,0.8);">{{hero.subtitle}}</p>
+        <div class="flex flex-wrap gap-4">
+          <a href="{{hero.cta_link}}" class="btn btn-primary btn-lg">{{hero.cta_text}}</a>
+          {{#if hero.cta2_text}}
+          <a href="{{hero.cta2_link}}" class="btn btn-outline btn-lg" style="border-color: #fff; color: #fff;">{{hero.cta2_text}}</a>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       SERVICES
+       ================================================================ -->
+  <section id="services" class="section bg-light">
+    <div class="container">
+      <h2 class="text-3xl font-bold text-center mb-12">{{services.heading}}</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {{#each services.items}}
+        <article class="card transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+          <img src="{{image}}" alt="{{title}}" class="w-full" style="height: 12rem; object-fit: cover;" loading="lazy">
+          <div class="p-6">
+            <h3 class="text-xl font-semibold mb-2">{{title}}</h3>
+            <p class="text-light leading-relaxed">{{description}}</p>
+            {{#if link}}
+            <a href="{{link}}" class="inline-flex items-center mt-4 text-primary font-medium">
+              En savoir plus
+              <svg class="ml-2" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+            {{/if}}
+          </div>
+        </article>
+        {{/each}}
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       ABOUT
+       ================================================================ -->
+  <section id="about" class="section">
+    <div class="container">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <!-- Photo -->
+        <div>
+          <img src="{{about.photo}}" alt="{{about.title}}" class="rounded-xl shadow-lg w-full" loading="lazy">
+        </div>
+
+        <!-- Text -->
+        <div>
+          <h2 class="text-3xl font-bold mb-6">{{about.title}}</h2>
+          <div class="text-light leading-relaxed">{{about.body}}</div>
+        </div>
+      </div>
+
+      <!-- Values -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+        {{#each about.values}}
+        <div class="bg-white rounded-xl shadow p-6 text-center">
+          <h3 class="text-lg font-semibold text-primary mb-2">{{title}}</h3>
+          <p class="text-light leading-relaxed">{{description}}</p>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       EDUCATION (Mesures légales)
+       ================================================================ -->
+  <section id="education" class="section bg-light">
+    <div class="container">
+      <h2 class="text-3xl font-bold text-center mb-12">{{education.heading}}</h2>
+
+      {{#each education.items}}
+      <div class="flex flex-col md:flex-row gap-8 items-center mb-12">
+        <!-- Image -->
+        <div class="flex-1 w-full">
+          <img src="{{image}}" alt="{{title}}" class="rounded-xl shadow w-full" style="object-fit: cover;" loading="lazy">
+        </div>
+
+        <!-- Text -->
+        <div class="flex-1">
+          <h3 class="text-2xl font-semibold mb-4">{{title}}</h3>
+          <div class="text-light leading-relaxed mb-4">{{description}}</div>
+          {{#if cta_text}}
+          <a href="{{cta_link}}" class="btn btn-outline">{{cta_text}}</a>
+          {{/if}}
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </section>
+
+  <!-- ================================================================
+       FAQ
+       ================================================================ -->
+  <section id="faq" class="section">
+    <div class="container">
+      <h2 class="text-3xl font-bold text-center mb-12">{{faq.heading}}</h2>
+
+      <div class="max-w-screen-lg mx-auto">
+        {{#each faq.items}}
+        <div class="accordion-item">
+          <button class="accordion-header" aria-expanded="false">
+            <span>{{question}}</span>
+            <svg class="accordion-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="accordion-content">
+            <div class="py-4 text-light leading-relaxed">{{answer}}</div>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       CONTACT
+       ================================================================ -->
+  <section id="contact" class="section bg-light">
+    <div class="container">
+      <h2 class="text-3xl font-bold text-center mb-4">{{contact.heading}}</h2>
+      <p class="text-light text-center max-w-prose mx-auto mb-12 leading-relaxed">{{contact.subtitle}}</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <!-- Contact form -->
+        <div>
+          <form id="contact-form" novalidate>
+            <!-- Honeypot -->
+            <div class="form-group hidden">
+              <label for="bot_field" class="form-label">Ne pas remplir</label>
+              <input type="text" name="bot_field" id="bot_field" class="input" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div class="form-group">
+              <label for="contact-name" class="form-label">Nom complet</label>
+              <input type="text" id="contact-name" name="name" class="input" required autocomplete="name" placeholder="Votre nom">
+            </div>
+
+            <div class="form-group">
+              <label for="contact-email" class="form-label">Courriel</label>
+              <input type="email" id="contact-email" name="email" class="input" required autocomplete="email" placeholder="votre@courriel.com">
+            </div>
+
+            <div class="form-group">
+              <label for="contact-phone" class="form-label">Telephone</label>
+              <input type="tel" id="contact-phone" name="phone" class="input" autocomplete="tel" placeholder="(514) 555-0123">
+            </div>
+
+            <div class="form-group">
+              <label for="contact-subject" class="form-label">Sujet</label>
+              <select id="contact-subject" name="subject" class="select">
+                <option value="">Selectionnez un sujet</option>
+                {{#each contact.form_subjects}}
+                <option value="{{title}}">{{title}}</option>
+                {{/each}}
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="contact-message" class="form-label">Message</label>
+              <textarea id="contact-message" name="message" class="textarea" required rows="5" placeholder="Decrivez brievement votre situation..."></textarea>
+            </div>
+
+            <!-- Turnstile -->
+            <!-- Turnstile site key: replace with real key for production -->
+            <div class="cf-turnstile mb-4" data-sitekey="1x00000000000000000000AA"></div>
+
+            <button type="submit" class="btn btn-primary w-full">Envoyer le message</button>
+
+            <div id="form-status" class="mt-4 hidden"></div>
+          </form>
+        </div>
+
+        <!-- Contact info -->
+        <div class="flex flex-col gap-8">
+          <div>
+            <h3 class="text-xl font-semibold mb-6">Nous joindre</h3>
+
+            <div class="flex items-start gap-4 mb-6">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary" style="flex-shrink: 0; margin-top: 2px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <div>
+                <p class="font-medium">Telephone</p>
+                <a href="tel:{{contact.phone}}" class="text-primary">{{contact.phone}}</a>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4 mb-6">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary" style="flex-shrink: 0; margin-top: 2px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <div>
+                <p class="font-medium">Adresse</p>
+                <p class="text-light">{{contact.address}}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl shadow p-6">
+            <h3 class="text-lg font-semibold mb-3 text-primary">Premiere consultation</h3>
+            <p class="text-light leading-relaxed">N'hesitez pas a nous contacter pour une premiere consultation. Nous prendrons le temps d'evaluer votre situation et de vous orienter vers les services les mieux adaptes a vos besoins.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       FOOTER
+       ================================================================ -->
+  <footer class="bg-dark text-white py-12">
+    <div class="container flex flex-col md:flex-row justify-between items-center gap-6">
+      <!-- Business info -->
+      <div class="text-center md:text-left">
+        <p class="font-semibold text-lg">{{footer.business_name}}</p>
+        <p class="text-sm" style="color: rgba(255,255,255,0.6);">{{footer.credentials}}</p>
+      </div>
+
+      <!-- Footer nav -->
+      <nav class="flex flex-wrap justify-center gap-6">
+        <a href="#services" class="text-sm transition" style="color: rgba(255,255,255,0.7);">Services</a>
+        <a href="#about" class="text-sm transition" style="color: rgba(255,255,255,0.7);">À propos</a>
+        <a href="#education" class="text-sm transition" style="color: rgba(255,255,255,0.7);">Mesures légales</a>
+        <a href="#faq" class="text-sm transition" style="color: rgba(255,255,255,0.7);">FAQ</a>
+        <a href="#contact" class="text-sm transition" style="color: rgba(255,255,255,0.7);">Contact</a>
+      </nav>
+
+      <!-- Copyright -->
+      <div class="text-center md:text-left">
+        <p class="text-sm" style="color: rgba(255,255,255,0.6);">{{currentYear}} {{footer.business_name}}. Tous droits reserves.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <script src="script.js"></script>
+</body>
+</html>

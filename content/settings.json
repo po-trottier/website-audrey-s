@@ -1,0 +1,151 @@
+{
+  "seo": {
+    "title": "Audrey Stypulkowski, T.S. — Travailleuse sociale, Laurentides",
+    "description": "Audrey Stypulkowski, travailleuse sociale avec plus de 20 ans d'expérience dans les Laurentides. Évaluation psychosociale, médiation familiale et consultation.",
+    "og_image": "/assets/images/og-image.jpg",
+    "favicon": "/favicon.svg"
+  },
+  "popup": {
+    "enabled": false,
+    "title": "Avis important",
+    "message": "",
+    "image": "",
+    "dismiss_label": "Fermer"
+  },
+  "header": {
+    "logo": "",
+    "site_name": "Audrey Stypulkowski",
+    "cta_text": "Prendre rendez-vous",
+    "cta_link": "#contact"
+  },
+  "hero": {
+    "title": "Plus de 20 ans d'expérience au service des familles",
+    "subtitle": "Travailleuse sociale membre de l'OTSTCFQ, je vous accompagne avec professionnalisme et bienveillance dans vos démarches psychosociales et juridiques dans la région des Laurentides.",
+    "image": "/assets/images/hero.jpg",
+    "cta_text": "Prendre rendez-vous",
+    "cta_link": "#contact",
+    "cta2_text": "Mes services",
+    "cta2_link": "#services"
+  },
+  "services": {
+    "heading": "Mes services",
+    "items": [
+      {
+        "title": "Évaluation psychosociale",
+        "description": "Une évaluation approfondie de votre situation familiale, sociale et psychologique afin de formuler des recommandations adaptées à vos besoins. Ce rapport professionnel est reconnu par les tribunaux et les organismes gouvernementaux.",
+        "image": "/assets/images/service-1.jpg",
+        "link": "#contact"
+      },
+      {
+        "title": "Médiation familiale",
+        "description": "Un processus volontaire et confidentiel qui vous aide à trouver des ententes mutuellement satisfaisantes lors d'une séparation ou d'un divorce. La médiation favorise la communication et préserve les liens familiaux, en particulier pour le bien-être des enfants.",
+        "image": "/assets/images/service-2.jpg",
+        "link": "#contact"
+      },
+      {
+        "title": "Consultation psychosociale",
+        "description": "Un accompagnement personnalisé pour traverser des périodes difficiles : conflits familiaux, adaptation au changement, difficultés relationnelles ou parentales. Ensemble, nous identifions des solutions concrètes et durables.",
+        "image": "/assets/images/service-3.jpg",
+        "link": "#contact"
+      }
+    ]
+  },
+  "about": {
+    "title": "À propos",
+    "body": "Depuis plus de 20 ans, j'accompagne les individus et les familles dans leurs moments les plus importants et les plus délicats. Mon approche repose sur l'écoute active, le respect et une profonde conviction que chaque personne possède les ressources nécessaires pour surmonter ses défis.\n\nFormée en travail social et accréditée en médiation familiale, je mets mon expertise au service de ceux qui traversent des transitions de vie, des conflits familiaux ou des démarches juridiques. Mon objectif est de vous offrir un espace sécuritaire où vous pouvez exprimer vos préoccupations et trouver des pistes de solution adaptées à votre réalité.\n\nBasée dans les Laurentides, je dessers également les régions avoisinantes. N'hésitez pas à me contacter pour discuter de votre situation en toute confidentialité.",
+    "photo": "/assets/images/about.jpg",
+    "values": [
+      {
+        "title": "Expérience",
+        "description": "Plus de 20 ans de pratique auprès des familles, des enfants et des adultes en situation de vulnérabilité. Une expertise solide forgée sur le terrain."
+      },
+      {
+        "title": "Approche humaine",
+        "description": "Une écoute attentive et sans jugement, où chaque personne est accueillie avec respect et bienveillance. Votre vécu et vos émotions sont au cœur de notre démarche."
+      },
+      {
+        "title": "Disponibilité",
+        "description": "Un accompagnement flexible adapté à votre horaire. Des rendez-vous en personne dans les Laurentides ou par visioconférence selon vos besoins."
+      }
+    ]
+  },
+  "education": {
+    "heading": "Mesures légales",
+    "items": [
+      {
+        "title": "Ouverture de tutelle",
+        "description": "L'ouverture d'une tutelle permet de protéger une personne inapte en nommant un tuteur responsable de ses droits et de son bien-être. L'évaluation psychosociale est une étape essentielle de ce processus, car elle permet au tribunal de prendre une décision éclairée.\n\n- Évaluation de l'aptitude de la personne\n- Recommandations sur le choix du tuteur\n- Rapport détaillé pour le tribunal",
+        "image": "/assets/images/edu-1.jpg",
+        "cta_text": "En savoir plus",
+        "cta_link": "#contact"
+      },
+      {
+        "title": "Régime de protection",
+        "description": "Le régime de protection vise à assurer la sécurité et le respect des droits d'une personne majeure inapte. Selon la gravité de l'inaptitude, différentes mesures peuvent être mises en place : curatelle, tutelle ou conseiller au majeur.\n\n- Évaluation du degré d'inaptitude\n- Recommandation du régime le plus adapté\n- Accompagnement tout au long du processus",
+        "image": "/assets/images/edu-2.jpg",
+        "cta_text": "En savoir plus",
+        "cta_link": "#contact"
+      },
+      {
+        "title": "Garde d'enfants et droits d'accès",
+        "description": "Lors d'une séparation, la question de la garde des enfants est souvent la plus délicate. L'évaluation psychosociale permet de déterminer les modalités de garde et de droits d'accès qui servent le mieux l'intérêt de l'enfant.\n\n- Évaluation des capacités parentales\n- Analyse du milieu de vie de chaque parent\n- Recommandations centrées sur l'intérêt de l'enfant",
+        "image": "/assets/images/edu-3.jpg",
+        "cta_text": "En savoir plus",
+        "cta_link": "#contact"
+      },
+      {
+        "title": "Adoption et retrouvailles",
+        "description": "Que ce soit pour une démarche d'adoption ou un processus de retrouvailles avec un membre de la famille biologique, un accompagnement psychosocial professionnel peut faciliter cette transition importante et chargée d'émotions.\n\n- Évaluation psychosociale pour l'adoption\n- Soutien lors des retrouvailles\n- Accompagnement des familles d'accueil",
+        "image": "/assets/images/edu-4.jpg",
+        "cta_text": "En savoir plus",
+        "cta_link": "#contact"
+      }
+    ]
+  },
+  "faq": {
+    "heading": "Questions fréquentes",
+    "items": [
+      {
+        "question": "Qu'est-ce qu'une évaluation psychosociale ?",
+        "answer": "Une évaluation psychosociale est un processus professionnel qui permet d'analyser la situation d'une personne ou d'une famille dans son contexte global. Elle comprend des entrevues, des observations et parfois des consultations avec d'autres professionnels. Le rapport qui en découle présente des conclusions et des recommandations qui peuvent être utilisées dans un cadre juridique ou pour orienter une intervention."
+      },
+      {
+        "question": "Combien de séances sont nécessaires pour une évaluation ?",
+        "answer": "Le nombre de séances varie selon la complexité de la situation. En général, une évaluation psychosociale nécessite entre **3 et 6 rencontres** réparties sur quelques semaines. Lors de notre premier contact, je pourrai vous donner une estimation plus précise en fonction de votre situation particulière."
+      },
+      {
+        "question": "Est-ce que les services sont couverts par les assurances ?",
+        "answer": "Plusieurs régimes d'assurances collectives couvrent les services d'un travailleur social membre de l'OTSTCFQ. Je vous recommande de vérifier auprès de votre assureur les modalités de votre couverture. Des reçus pour fins d'assurance sont émis après chaque consultation."
+      },
+      {
+        "question": "Comment se déroule une médiation familiale ?",
+        "answer": "La médiation familiale se déroule en plusieurs étapes :\n\n- Une séance d'information gratuite pour comprendre le processus\n- Des séances de négociation où chaque partie exprime ses besoins\n- La rédaction d'un résumé des ententes convenues\n\nLe processus est **volontaire et confidentiel**. Les couples admissibles bénéficient de séances gratuites couvertes par le ministère de la Justice du Québec."
+      },
+      {
+        "question": "Offrez-vous des consultations en ligne ?",
+        "answer": "Oui, j'offre des consultations par visioconférence sécurisée pour les personnes qui ne peuvent pas se déplacer ou qui résident à l'extérieur de la région des Laurentides. Les séances en ligne se déroulent avec la même rigueur et la même confidentialité que les rencontres en personne."
+      },
+      {
+        "question": "Quelle est la différence entre un travailleur social et un psychologue ?",
+        "answer": "Le travailleur social et le psychologue sont deux professionnels de la relation d'aide qui se complètent. Le travailleur social adopte une approche qui tient compte de l'ensemble des facteurs sociaux, familiaux et environnementaux qui influencent la situation d'une personne. Il est particulièrement qualifié pour les évaluations psychosociales, la médiation familiale et l'intervention auprès des familles. Le psychologue se concentre davantage sur les processus mentaux et les troubles psychologiques."
+      }
+    ]
+  },
+  "contact": {
+    "heading": "Me contacter",
+    "subtitle": "N'hésitez pas à communiquer avec moi pour toute question ou pour prendre rendez-vous. Je vous répondrai dans les meilleurs délais.",
+    "phone": "+1 514 555-0123",
+    "address": "Laurentides, Québec",
+    "form_subjects": [
+      { "title": "Évaluation psychosociale" },
+      { "title": "Médiation familiale" },
+      { "title": "Consultation" },
+      { "title": "Autre" }
+    ]
+  },
+  "footer": {
+    "business_name": "Audrey Stypulkowski, T.S.",
+    "credentials": "Membre de l'OTSTCFQ — No. XXXXX",
+    "privacy_link": ""
+  }
+}
