@@ -247,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Honeypot check — silently pretend success
       if (data.bot_field) {
         if (formStatus) {
-          formStatus.textContent = 'Votre message a ete envoye avec succes. Merci !';
+          formStatus.textContent = 'Votre message a ete envoyé avec succès. Merci !';
           formStatus.className = 'form-success';
         }
         contactForm.reset();
@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (response.ok && result.success) {
           if (formStatus) {
-            formStatus.textContent = result.message || 'Votre message a ete envoye avec succes. Merci !';
+            formStatus.textContent = result.message || 'Votre message a ete envoyé avec succès. Merci !';
             formStatus.className = 'form-success';
           }
           contactForm.reset();
@@ -293,13 +293,13 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         } else {
           if (formStatus) {
-            formStatus.textContent = result.error || 'Une erreur est survenue. Veuillez reessayer.';
+            formStatus.textContent = result.error || 'Une erreur est survenue. Veuillez réessayer.';
             formStatus.className = 'form-error';
           }
         }
       } catch {
         if (formStatus) {
-          formStatus.textContent = 'Erreur de connexion. Veuillez verifier votre connexion internet et reessayer.';
+          formStatus.textContent = 'Erreur de connexion. Veuillez vérifier votre connexion internet et réessayer.';
           formStatus.className = 'form-error';
         }
       } finally {

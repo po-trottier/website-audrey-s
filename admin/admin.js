@@ -208,7 +208,7 @@ async function handleLogin() {
     showEditor();
   } else {
     githubToken = '';
-    showLoginError('Token invalide ou depot inaccessible.');
+    showLoginError('Token invalide ou dépôt inaccessible.');
   }
 
   $loginBtn.disabled = false;
@@ -218,10 +218,6 @@ async function handleLogin() {
 function showLoginError(msg) {
   $loginError.textContent = msg;
   $loginError.classList.remove('hidden');
-}
-
-function hideLoginError() {
-  $loginError.classList.add('hidden');
 }
 
 function showEditor() {
@@ -466,9 +462,9 @@ function createListEditor(sectionKey, listDef, items) {
   heading.className = 'flex items-center justify-between mb-3';
   heading.innerHTML = `
     <span class="admin-label" style="margin-bottom:0;font-size:var(--text-base);">
-      ${esc(listDef.key === 'items' ? 'Elements' : listDef.key === 'values' ? 'Valeurs' : listDef.key === 'form_subjects' ? 'Sujets du formulaire' : 'Elements')}
+      ${esc(listDef.key === 'items' ? 'Éléments' : listDef.key === 'values' ? 'Valeurs' : listDef.key === 'form_subjects' ? 'Sujets du formulaire' : 'Éléments')}
     </span>
-    <span class="text-xs text-light">${items.length} element${items.length !== 1 ? 's' : ''}</span>
+    <span class="text-xs text-light">${items.length} élément${items.length !== 1 ? 's' : ''}</span>
   `;
   container.appendChild(heading);
 
@@ -539,7 +535,7 @@ function createListItem(sectionKey, listDef, item, index) {
     </div>`;
   }
 
-  const title = item[titleField?.key] || `Element ${index + 1}`;
+  const title = item[titleField?.key] || `Élément ${index + 1}`;
   const desc = item[descField?.key] || '';
 
   el.innerHTML = `
@@ -564,7 +560,7 @@ function createListItem(sectionKey, listDef, item, index) {
   });
 
   el.querySelector('[data-action="delete"]').addEventListener('click', () => {
-    if (!confirm('Supprimer cet element ?')) return;
+    if (!confirm('Supprimer cet élément ?')) return;
     const arr = getNestedValue(content, `${sectionKey}.${listDef.key}`) || [];
     arr.splice(index, 1);
     setNestedValue(content, `${sectionKey}.${listDef.key}`, arr);
@@ -692,7 +688,7 @@ function refreshList(container, sectionKey, listDef) {
   // Update count
   const countEl = container.querySelector('.text-xs.text-light');
   if (countEl) {
-    countEl.textContent = `${arr.length} element${arr.length !== 1 ? 's' : ''}`;
+    countEl.textContent = `${arr.length} élément${arr.length !== 1 ? 's' : ''}`;
   }
 }
 
@@ -746,9 +742,10 @@ function handleImageSelect(e) {
 
 // Convert an image file to WebP using Canvas, with optional max dimension resize.
 function compressToWebP(file, maxDim = 1920, quality = 0.82) {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const img = new Image();
     img.onload = () => {
+      URL.revokeObjectURL(img.src);
       let { width, height } = img;
 
       // Resize if larger than maxDim
@@ -772,6 +769,10 @@ function compressToWebP(file, maxDim = 1920, quality = 0.82) {
         };
         reader.readAsDataURL(blob);
       }, 'image/webp', quality);
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(img.src);
+      reject(new Error('Impossible de charger l\u2019image'));
     };
     img.src = URL.createObjectURL(file);
   });
@@ -868,7 +869,7 @@ async function handlePublish() {
     pendingImages = [];
 
     // 2. Update settings.json
-    setStatus('saving', 'Mise a jour du contenu...');
+    setStatus('saving', 'Mise à jour du contenu...');
     // Re-fetch SHA in case it changed (e.g. from image uploads that triggered a rebuild)
     const currentFile = await getFile(CONTENT_PATH);
     if (currentFile) contentSha = currentFile.sha;
@@ -886,9 +887,9 @@ async function handlePublish() {
     // Update SHA for next publish
     contentSha = result.content.sha;
 
-    setStatus('connected', 'Publie');
-    $statusTime.textContent = `Derniere publication : ${new Date().toLocaleTimeString('fr-CA')}`;
-    showToast('Publie ! Le site sera mis a jour dans ~30 secondes.', 'success');
+    setStatus('connected', 'Publié');
+    $statusTime.textContent = `Dernière publication : ${new Date().toLocaleTimeString('fr-CA')}`;
+    showToast('Publié ! Le site sera mis à jour dans ~30 secondes.', 'success');
   } catch (e) {
     console.error('Publish error:', e);
     setStatus('error', 'Erreur de publication');
@@ -911,19 +912,6 @@ function esc(str) {
   const d = document.createElement('div');
   d.textContent = String(str);
   return d.innerHTML;
-}
-
-// Wrap selection in a text input with prefix/suffix
-function wrapSelection(input, prefix, suffix) {
-  input.focus();
-  const start = input.selectionStart;
-  const end = input.selectionEnd;
-  const text = input.value;
-  const selected = text.slice(start, end) || 'texte';
-  input.value = text.slice(0, start) + prefix + selected + suffix + text.slice(end);
-  input.selectionStart = start + prefix.length;
-  input.selectionEnd = start + prefix.length + selected.length;
-  input.dispatchEvent(new Event('input', { bubbles: true }));
 }
 
 // Initialize EasyMDE on a textarea.
@@ -956,10 +944,6 @@ function initMarkdownEditor(container, compact) {
   return editor;
 }
 
-
-function deepClone(obj) {
-  return JSON.parse(JSON.stringify(obj));
-}
 
 function getNestedValue(obj, path) {
   return path.split('.').reduce((acc, key) => {

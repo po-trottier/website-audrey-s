@@ -42,8 +42,9 @@ export async function onRequestPost(context) {
       headers: { "Content-Type": "text/html; charset=utf-8" },
     });
   } catch (e) {
+    const escHtml = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     return new Response(
-      `<html><body><h1>Erreur de prévisualisation</h1><pre>${e.message}\n${e.stack}</pre></body></html>`,
+      `<html><body><h1>Erreur de prévisualisation</h1><pre>${escHtml(e.message)}\n${escHtml(e.stack)}</pre></body></html>`,
       { status: 500, headers: { "Content-Type": "text/html; charset=utf-8" } },
     );
   }
