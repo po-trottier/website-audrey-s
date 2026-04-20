@@ -447,6 +447,16 @@ p {
   font-size: var(--text-sm);
 }
 
+.form-required {
+  color: var(--color-accent);
+}
+
+.form-optional {
+  font-weight: 400;
+  color: var(--color-text-light);
+  font-size: 0.85em;
+}
+
 .form-error {
   font-size: var(--text-sm);
   color: var(--color-error);
