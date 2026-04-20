@@ -90,6 +90,22 @@ const SECTIONS = [
     ],
   },
   {
+    key: 'about',
+    label: 'À propos',
+    fields: [
+      { key: 'title', label: 'Titre', type: 'text', hint: 'Titre de la section À propos.' },
+      { key: 'body', label: 'Contenu', type: 'textarea', hint: 'Texte de présentation. Supporte le Markdown complet.' },
+      { key: 'photo', label: 'Photo', type: 'image', hint: 'Photo de profil ou image professionnelle. Format carré recommandé.' },
+    ],
+    list: {
+      key: 'values',
+      fields: [
+        { key: 'title', label: 'Titre', type: 'text' },
+        { key: 'description', label: 'Description', type: 'textarea' },
+      ],
+    },
+  },
+  {
     key: 'services',
     label: 'Services',
     fields: [
@@ -103,22 +119,6 @@ const SECTIONS = [
         { key: 'description', label: 'Description', type: 'textarea' },
         { key: 'image', label: 'Image', type: 'image' },
         { key: 'link', label: 'Lien', type: 'text', plain: true },
-      ],
-    },
-  },
-  {
-    key: 'about',
-    label: 'À propos',
-    fields: [
-      { key: 'title', label: 'Titre', type: 'text', hint: 'Titre de la section À propos.' },
-      { key: 'body', label: 'Contenu', type: 'textarea', hint: 'Texte de présentation. Supporte le Markdown complet.' },
-      { key: 'photo', label: 'Photo', type: 'image', hint: 'Photo de profil ou image professionnelle. Format carré recommandé.' },
-    ],
-    list: {
-      key: 'values',
-      fields: [
-        { key: 'title', label: 'Titre', type: 'text' },
-        { key: 'description', label: 'Description', type: 'textarea' },
       ],
     },
   },

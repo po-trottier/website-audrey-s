@@ -102,8 +102,8 @@
 
       <!-- Navigation -->
       <nav class="nav-menu text-white">
-        <a href="#services" class="nav-link">{{nav.services}}</a>
         <a href="#about" class="nav-link">{{nav.about}}</a>
+        <a href="#services" class="nav-link">{{nav.services}}</a>
         <a href="#education" class="nav-link">{{nav.education}}</a>
         <a href="#faq" class="nav-link">{{nav.faq}}</a>
         <a href="{{header.cta_link}}" class="btn btn-primary">{{header.cta_text}}</a>
@@ -133,36 +133,9 @@
   </section>
 
   <!-- ================================================================
-       SERVICES
-       ================================================================ -->
-  <section id="services" class="section bg-light">
-    <div class="container">
-      <h2 class="text-3xl font-bold text-center mb-12">{{services.heading}}</h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {{#each services.items}}
-        <article class="card transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-          <img src="{{image}}" alt="{{title}}" class="w-full" style="height: 12rem; object-fit: cover;" loading="lazy">
-          <div class="p-6">
-            <h3 class="text-xl font-semibold mb-2">{{title}}</h3>
-            <p class="text-light leading-relaxed">{{description}}</p>
-            {{#if link}}
-            <a href="{{link}}" class="inline-flex items-center mt-4 text-primary font-medium">
-              {{services.link_text}}
-              <svg class="ml-2" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            </a>
-            {{/if}}
-          </div>
-        </article>
-        {{/each}}
-      </div>
-    </div>
-  </section>
-
-  <!-- ================================================================
        ABOUT
        ================================================================ -->
-  <section id="about" class="section">
+  <section id="about" class="section bg-light">
     <div class="container">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         <!-- Photo -->
@@ -184,6 +157,33 @@
           <h3 class="text-lg font-semibold text-primary mb-2">{{title}}</h3>
           <p class="text-light leading-relaxed">{{description}}</p>
         </div>
+        {{/each}}
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       SERVICES
+       ================================================================ -->
+  <section id="services" class="section">
+    <div class="container">
+      <h2 class="text-3xl font-bold text-center mb-12">{{services.heading}}</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {{#each services.items}}
+        <article class="card transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+          <img src="{{image}}" alt="{{title}}" class="w-full" style="height: 12rem; object-fit: cover;" loading="lazy">
+          <div class="p-6">
+            <h3 class="text-xl font-semibold mb-2">{{title}}</h3>
+            <p class="text-light leading-relaxed">{{description}}</p>
+            {{#if link}}
+            <a href="{{link}}" class="inline-flex items-center mt-4 text-primary font-medium">
+              {{services.link_text}}
+              <svg class="ml-2" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+            {{/if}}
+          </div>
+        </article>
         {{/each}}
       </div>
     </div>
@@ -354,8 +354,8 @@
           <p class="text-sm" style="color: rgba(255,255,255,0.6);">{{footer.credentials}}</p>
         </div>
         <nav class="flex flex-wrap justify-center gap-6">
-          <a href="#services" class="text-sm transition" style="color: rgba(255,255,255,0.7);">{{nav.services}}</a>
           <a href="#about" class="text-sm transition" style="color: rgba(255,255,255,0.7);">{{nav.about}}</a>
+          <a href="#services" class="text-sm transition" style="color: rgba(255,255,255,0.7);">{{nav.services}}</a>
           <a href="#education" class="text-sm transition" style="color: rgba(255,255,255,0.7);">{{nav.education}}</a>
           <a href="#faq" class="text-sm transition" style="color: rgba(255,255,255,0.7);">{{nav.faq}}</a>
           <a href="#contact" class="text-sm transition" style="color: rgba(255,255,255,0.7);">{{nav.contact}}</a>
