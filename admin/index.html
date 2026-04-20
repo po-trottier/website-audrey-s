@@ -264,9 +264,10 @@
       margin-bottom: var(--space-3);
       display: flex;
       gap: var(--space-4);
-      align-items: flex-start;
+      align-items: center;
       background: var(--color-bg-light);
       transition: box-shadow var(--transition);
+      position: relative;
     }
 
     .admin-list-item:hover {
@@ -280,6 +281,8 @@
       padding: var(--space-1);
       opacity: 0.4;
       transition: opacity var(--transition);
+      align-self: center;
+      touch-action: none;
     }
 
     .admin-drag-handle:hover {
@@ -291,12 +294,31 @@
     }
 
     .admin-list-item.dragging {
-      opacity: 0.5;
-      box-shadow: var(--shadow-lg);
+      opacity: 0.4;
+      background: var(--color-primary-light);
+      border-color: var(--color-primary);
     }
 
-    .admin-list-item.drag-over {
-      border-top: 2px solid var(--color-primary);
+    .admin-list-item.drag-over::before {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--color-primary);
+      border-radius: var(--rounded-full);
+    }
+
+    .admin-list-item.drag-over-below::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--color-primary);
+      border-radius: var(--rounded-full);
     }
 
     .admin-list-item--compact {

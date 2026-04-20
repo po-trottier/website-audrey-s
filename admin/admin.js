@@ -845,45 +845,9 @@ function createListItem(sectionKey, listDef, item, index, totalCount) {
     openListItemEditor(el, sectionKey, listDef, index);
   });
 
-  // Drag and drop reorder
-  el.addEventListener('dragstart', (e) => {
-    el.classList.add('dragging');
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/plain', String(index));
-  });
-
-  el.addEventListener('dragend', () => {
-    el.classList.remove('dragging');
-    el.closest('.admin-list-items')?.querySelectorAll('.admin-list-item').forEach(item => {
-      item.classList.remove('drag-over');
-    });
-  });
-
-  el.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-    const dragging = el.closest('.admin-list-items')?.querySelector('.dragging');
-    if (dragging && dragging !== el) {
-      el.classList.add('drag-over');
-    }
-  });
-
-  el.addEventListener('dragleave', () => {
-    el.classList.remove('drag-over');
-  });
-
-  el.addEventListener('drop', (e) => {
-    e.preventDefault();
-    el.classList.remove('drag-over');
-    const fromIndex = parseInt(e.dataTransfer.getData('text/plain'), 10);
-    const toIndex = index;
-    if (fromIndex === toIndex) return;
-    const arr = getNestedValue(content, `${sectionKey}.${listDef.key}`) || [];
-    const [moved] = arr.splice(fromIndex, 1);
-    arr.splice(toIndex, 0, moved);
-    const container = el.closest('[data-list-key]');
-    refreshList(container, sectionKey, listDef);
-  });
+  // Drag and drop reorder (mouse + touch)
+  const handle = el.querySelector('.admin-drag-handle');
+  initDragReorder(handle, el, sectionKey, listDef, index);
 
   el.querySelector('[data-action="delete"]').addEventListener('click', () => {
     if (!confirm('Supprimer cet élément ?')) return;
@@ -1362,4 +1326,129 @@ function showToast(message, type) {
   toastTimeout = setTimeout(() => {
     $toast.classList.remove('show');
   }, 5000);
+}
+
+// ============================================================================
+//  DRAG AND DROP REORDER (mouse + touch)
+// ============================================================================
+
+function initDragReorder(handle, el, sectionKey, listDef, index) {
+  let dragging = false;
+  let startY = 0;
+  let currentTarget = null;
+  const listPath = `${sectionKey}.${listDef.key}`;
+
+  function getItems() {
+    return Array.from(el.closest('.admin-list-items')?.querySelectorAll('.admin-list-item') || []);
+  }
+
+  function clearIndicators() {
+    getItems().forEach(item => {
+      item.classList.remove('drag-over', 'drag-over-below');
+    });
+  }
+
+  function getDropTarget(clientY) {
+    const items = getItems();
+    for (const item of items) {
+      if (item === el) continue;
+      const rect = item.getBoundingClientRect();
+      if (clientY >= rect.top && clientY <= rect.bottom) {
+        return { el: item, index: parseInt(item.dataset.index, 10), above: clientY < rect.top + rect.height / 2 };
+      }
+    }
+    return null;
+  }
+
+  function doReorder(fromIdx, toIdx) {
+    if (fromIdx === toIdx) return;
+    const arr = getNestedValue(content, listPath) || [];
+    const [moved] = arr.splice(fromIdx, 1);
+    arr.splice(toIdx, 0, moved);
+    const container = el.closest('[data-list-key]');
+    refreshList(container, sectionKey, listDef);
+  }
+
+  function onMove(clientY) {
+    clearIndicators();
+    const target = getDropTarget(clientY);
+    if (target) {
+      currentTarget = target;
+      target.el.classList.add(target.above ? 'drag-over' : 'drag-over-below');
+    } else {
+      currentTarget = null;
+    }
+  }
+
+  function onEnd() {
+    el.classList.remove('dragging');
+    clearIndicators();
+    if (currentTarget) {
+      let toIdx = currentTarget.index;
+      if (!currentTarget.above && toIdx < index) toIdx++;
+      if (currentTarget.above && toIdx > index) toIdx--;
+      doReorder(index, toIdx);
+    }
+    currentTarget = null;
+    dragging = false;
+  }
+
+  // Mouse: use native HTML5 drag API
+  el.addEventListener('dragstart', (e) => {
+    el.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', String(index));
+  });
+
+  el.addEventListener('dragend', () => {
+    el.classList.remove('dragging');
+    clearIndicators();
+  });
+
+  el.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    const dragEl = el.closest('.admin-list-items')?.querySelector('.dragging');
+    if (dragEl && dragEl !== el) {
+      clearIndicators();
+      const rect = el.getBoundingClientRect();
+      const above = e.clientY < rect.top + rect.height / 2;
+      el.classList.add(above ? 'drag-over' : 'drag-over-below');
+    }
+  });
+
+  el.addEventListener('dragleave', () => {
+    el.classList.remove('drag-over', 'drag-over-below');
+  });
+
+  el.addEventListener('drop', (e) => {
+    e.preventDefault();
+    const above = el.classList.contains('drag-over');
+    el.classList.remove('drag-over', 'drag-over-below');
+    const fromIndex = parseInt(e.dataTransfer.getData('text/plain'), 10);
+    let toIndex = index;
+    if (!above && toIndex < fromIndex) toIndex++;
+    if (above && toIndex > fromIndex) toIndex--;
+    doReorder(fromIndex, toIndex);
+  });
+
+  // Touch: manual drag via touch events on the handle
+  handle.addEventListener('touchstart', (e) => {
+    dragging = true;
+    startY = e.touches[0].clientY;
+    el.classList.add('dragging');
+    e.preventDefault();
+  }, { passive: false });
+
+  handle.addEventListener('touchmove', (e) => {
+    if (!dragging) return;
+    e.preventDefault();
+    onMove(e.touches[0].clientY);
+  }, { passive: false });
+
+  handle.addEventListener('touchend', (e) => {
+    if (!dragging) return;
+    e.preventDefault();
+    onEnd();
+  });
 }
