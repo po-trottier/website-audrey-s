@@ -149,16 +149,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const popup = document.getElementById('popup');
 
-  if (popup && !sessionStorage.getItem('popup-dismissed')) {
+  if (popup) {
     const popupClose = document.getElementById('popup-close');
     const modal = popup.querySelector('.modal');
 
-    // Show the popup — body scroll is already locked by the modal-backdrop
+    // Lock body scroll while popup is visible
     document.body.style.overflow = 'hidden';
 
     function closePopup() {
       popup.remove();
-      sessionStorage.setItem('popup-dismissed', 'true');
       document.body.style.overflow = '';
     }
 

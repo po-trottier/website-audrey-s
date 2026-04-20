@@ -409,10 +409,11 @@ p {
   bottom: 0;
   left: 0;
   background-color: var(--backdrop-bg);
-  z-index: 50;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: modal-fade-in 0.2s ease;
 }
 
 .modal {
@@ -424,6 +425,15 @@ p {
   max-height: 90vh;
   overflow-x: hidden;
   overflow-y: auto;
+  animation: modal-scale-in 0.2s ease;
+}
+
+@keyframes modal-fade-in {
+  from { opacity: 0; }
+}
+
+@keyframes modal-scale-in {
+  from { transform: scale(0.95); }
 }
 
 .popup-image {
