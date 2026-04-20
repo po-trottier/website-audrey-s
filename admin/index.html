@@ -66,92 +66,103 @@
 
     /* -- Editor layout -- */
     .admin-body {
+      display: flex;
       padding-top: 56px;
-      padding-bottom: 48px;
       min-height: 100vh;
       background: var(--color-bg-light);
     }
 
-    .admin-content {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: var(--space-6);
+    .admin-sidebar {
+      width: 200px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 56px;
+      height: calc(100vh - 56px);
+      background: var(--color-white);
+      border-right: 1px solid var(--color-border);
+      overflow-y: auto;
+      padding: var(--space-4) 0;
     }
 
-    /* -- Section divider -- */
-    .admin-divider {
-      display: flex;
-      align-items: center;
-      gap: var(--space-4);
-      margin: var(--space-8) 0 var(--space-4);
-      color: var(--color-text-light);
+    .admin-sidebar-group {
       font-size: var(--text-xs);
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
+      color: var(--color-text-light);
+      padding: var(--space-3) var(--space-4) var(--space-1);
     }
 
-    .admin-divider::before,
-    .admin-divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--color-border);
-    }
-
-    /* -- Sections (accordion) -- */
-    .admin-section {
-      background: var(--color-white);
-      border-radius: var(--rounded-xl);
-      box-shadow: var(--shadow-sm);
-      margin-bottom: var(--space-4);
-      overflow: hidden;
-    }
-
-    .admin-section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: var(--space-4) var(--space-6);
-      font-weight: 600;
-      font-size: var(--text-base);
-      cursor: pointer;
-      user-select: none;
+    .admin-sidebar-item {
+      display: block;
+      width: 100%;
+      padding: var(--space-2) var(--space-4);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-text);
       background: none;
       border: none;
-      width: 100%;
       text-align: left;
-      color: var(--color-text);
-      transition: background-color var(--transition);
+      cursor: pointer;
+      transition: background-color var(--transition), color var(--transition);
     }
 
-    .admin-section-header:hover {
+    .admin-sidebar-item:hover {
       background-color: var(--color-bg-light);
     }
 
-    .admin-section-header .chevron {
-      transition: transform var(--transition-slow);
-      flex-shrink: 0;
-      color: var(--color-text-light);
+    .admin-sidebar-item.active {
+      background-color: var(--color-primary);
+      color: var(--color-white);
     }
 
-    .admin-section.open .admin-section-header .chevron {
-      transform: rotate(180deg);
-    }
-
-    .admin-section-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.35s ease;
-    }
-
-    .admin-section.open .admin-section-content {
-      max-height: none;
-    }
-
-    .admin-section-inner {
+    .admin-content {
+      flex: 1;
       padding: var(--space-6);
-      border-top: 1px solid var(--color-border);
+      overflow-y: auto;
+      height: calc(100vh - 56px);
+    }
+
+    .admin-content-card {
+      background: var(--color-white);
+      border-radius: var(--rounded-xl);
+      box-shadow: var(--shadow-sm);
+      padding: var(--space-6);
+    }
+
+    .admin-content-title {
+      font-size: var(--text-lg);
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: var(--space-4);
+    }
+
+    /* -- Field grid -- */
+    .admin-field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+
+    .admin-field-full {
+      grid-column: 1 / -1;
+    }
+
+    .admin-subgroup-header {
+      grid-column: 1 / -1;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-primary);
+      border-bottom: 2px solid var(--color-primary-light);
+      padding-bottom: var(--space-2);
+      margin-top: var(--space-2);
+    }
+
+    /* -- Mobile tabs -- */
+    .admin-mobile-tabs {
+      display: none;
     }
 
     /* -- Field groups -- */
@@ -586,6 +597,119 @@
       display: none;
     }
 
+    /* -- Actions popover (mobile only) -- */
+    .admin-actions-popover {
+      display: none;
+      position: relative;
+    }
+
+    .admin-popover {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin-top: var(--space-2);
+      background: var(--color-white);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--color-border);
+      min-width: 160px;
+      z-index: 60;
+    }
+
+    .admin-popover.hidden {
+      display: none;
+    }
+
+    .admin-popover-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      width: 100%;
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-text);
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: background-color var(--transition);
+    }
+
+    .admin-popover-item:hover {
+      background-color: var(--color-bg-light);
+    }
+
+    /* -- Responsive admin (mobile sidebar -> tabs) -- */
+    @media (max-width: 768px) {
+      .admin-sidebar {
+        display: none;
+      }
+
+      .admin-mobile-tabs {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-border);
+        padding: 0 var(--space-2);
+      }
+
+      .admin-mobile-tabs::-webkit-scrollbar {
+        display: none;
+      }
+
+      .admin-mobile-tab {
+        flex-shrink: 0;
+        padding: var(--space-3) var(--space-4);
+        font-size: var(--text-sm);
+        font-weight: 500;
+        color: var(--color-text-light);
+        background: none;
+        border: none;
+        border-bottom: 2px solid transparent;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: color var(--transition), border-color var(--transition);
+      }
+
+      .admin-mobile-tab:hover {
+        color: var(--color-text);
+      }
+
+      .admin-mobile-tab.active {
+        color: var(--color-primary);
+        border-bottom-color: var(--color-primary);
+      }
+
+      .admin-body {
+        flex-direction: column;
+        padding-bottom: 0;
+      }
+
+      .admin-content {
+        height: auto;
+        flex: 1;
+      }
+
+      .admin-field-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .status-bar {
+        display: none;
+      }
+
+      .admin-desktop-actions {
+        display: none;
+      }
+
+      .admin-actions-popover {
+        display: block;
+      }
+    }
+
     /* -- Responsive admin topbar -- */
     @media (max-width: 640px) {
       .admin-topbar {
@@ -634,19 +758,36 @@
     <div class="admin-topbar">
       <a href="/" class="btn btn-sm btn-ghost">← Retourner au site</a>
       <div class="flex items-center gap-3">
-        <button id="btn-preview" class="btn btn-sm btn-ghost" type="button" style="gap: var(--space-2);">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-          Aperçu
-        </button>
-        <button id="btn-publish" class="btn btn-sm btn-success" type="button" style="gap: var(--space-2);">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-          Publier
-        </button>
+        <div class="admin-desktop-actions flex items-center gap-3">
+          <button id="btn-preview" class="btn btn-sm btn-ghost" type="button" style="gap: var(--space-2);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            Aperçu
+          </button>
+          <button id="btn-publish" class="btn btn-sm btn-success" type="button" style="gap: var(--space-2);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+            Publier
+          </button>
+        </div>
+        <div class="admin-actions-popover">
+          <button id="btn-actions-toggle" class="btn btn-sm btn-ghost" type="button">Actions &#9662;</button>
+          <div id="actions-popover" class="admin-popover hidden">
+            <button id="btn-preview-mobile" class="admin-popover-item" type="button">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              Aperçu
+            </button>
+            <button id="btn-publish-mobile" class="admin-popover-item" type="button">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+              Publier
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Main editor body -->
     <div class="admin-body">
+      <div class="admin-mobile-tabs" id="mobile-tabs"></div>
+      <nav class="admin-sidebar" id="admin-sidebar"></nav>
       <div class="admin-content" id="sections-container">
         <!-- Sections rendered by JS -->
       </div>
@@ -659,6 +800,19 @@
         <span id="status-text">Connecté</span>
       </div>
       <span id="status-time" class="text-xs"></span>
+    </div>
+  </div>
+
+  <!-- Publish confirmation modal -->
+  <div id="publish-modal" class="modal-backdrop hidden" style="z-index: 100;">
+    <div class="modal text-center">
+      <div style="font-size: 2rem; margin-bottom: var(--space-3);">&#8593;</div>
+      <h2 class="text-lg font-bold mb-2">Publier les modifications ?</h2>
+      <p class="text-sm text-light mb-6">Les changements seront visibles sur le site public.</p>
+      <div class="flex items-center justify-center gap-3">
+        <button id="publish-cancel" class="btn btn-outline" type="button">Annuler</button>
+        <button id="publish-confirm" class="btn btn-primary" type="button">Publier</button>
+      </div>
     </div>
   </div>
 
