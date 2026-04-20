@@ -355,6 +355,15 @@
     </div>
   </footer>
 
+  <!-- Form result modal (reuses popup modal structure) -->
+  <div class="modal-backdrop hidden" id="form-modal" role="dialog" aria-modal="true">
+    <div class="modal" style="text-align: center;">
+      <div id="form-modal-icon" class="form-modal-icon"></div>
+      <p id="form-modal-message" class="text-light mb-6 leading-relaxed text-center"></p>
+      <button id="form-modal-close" class="btn btn-primary w-full">Fermer</button>
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <script src="script.js"></script>

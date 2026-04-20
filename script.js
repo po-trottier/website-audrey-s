@@ -224,32 +224,44 @@ document.addEventListener('DOMContentLoaded', () => {
   const contactForm = document.getElementById('contact-form');
 
   if (contactForm) {
-    const formStatus = document.getElementById('form-status');
     const submitBtn = contactForm.querySelector('button[type="submit"]');
     const submitBtnOriginalText = submitBtn ? submitBtn.textContent : '';
+    const formModal = document.getElementById('form-modal');
+    const formModalIcon = document.getElementById('form-modal-icon');
+    const formModalMessage = document.getElementById('form-modal-message');
+    const formModalClose = document.getElementById('form-modal-close');
+
+    function showFormModal(success, message) {
+      formModalIcon.textContent = success ? '\u2713' : '\u2717';
+      formModalIcon.style.color = success ? 'var(--color-primary)' : 'var(--color-error)';
+      formModalMessage.textContent = message;
+      formModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeFormModal() {
+      formModal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    if (formModalClose) formModalClose.addEventListener('click', closeFormModal);
+    if (formModal) {
+      formModal.addEventListener('click', (e) => {
+        if (e.target === formModal) closeFormModal();
+      });
+    }
 
     contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // Clear previous status
-      if (formStatus) {
-        formStatus.textContent = '';
-        formStatus.className = '';
-      }
-
       // Gather form data
       const formData = new FormData(contactForm);
       const data = {};
-      formData.forEach((value, key) => {
-        data[key] = value;
-      });
+      formData.forEach((value, key) => { data[key] = value; });
 
       // Honeypot check — silently pretend success
       if (data.bot_field) {
-        if (formStatus) {
-          formStatus.textContent = 'Votre message a ete envoyé avec succès. Merci !';
-          formStatus.className = 'form-success';
-        }
+        showFormModal(true, 'Votre message a bien été envoyé. Merci !');
         contactForm.reset();
         return;
       }
@@ -260,9 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
         data.turnstileToken = turnstileInput.value;
       } else if (typeof turnstile !== 'undefined' && typeof turnstile.getResponse === 'function') {
         const token = turnstile.getResponse();
-        if (token) {
-          data.turnstileToken = token;
-        }
+        if (token) data.turnstileToken = token;
       }
 
       // Show loading state
@@ -281,29 +291,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const result = await response.json();
 
         if (response.ok && result.success) {
-          if (formStatus) {
-            formStatus.textContent = result.message || 'Votre message a ete envoyé avec succès. Merci !';
-            formStatus.className = 'form-success';
-          }
+          showFormModal(true, 'Votre message a bien été envoyé. Nous vous répondrons dans les plus brefs délais.');
           contactForm.reset();
-
-          // Reset Turnstile widget if available
           if (typeof turnstile !== 'undefined' && typeof turnstile.reset === 'function') {
             turnstile.reset();
           }
         } else {
-          if (formStatus) {
-            formStatus.textContent = result.error || 'Une erreur est survenue. Veuillez réessayer.';
-            formStatus.className = 'form-error';
-          }
+          showFormModal(false, result.error || 'Une erreur est survenue. Veuillez réessayer.');
         }
       } catch {
-        if (formStatus) {
-          formStatus.textContent = 'Erreur de connexion. Veuillez vérifier votre connexion internet et réessayer.';
-          formStatus.className = 'form-error';
-        }
+        showFormModal(false, 'Erreur de connexion. Veuillez vérifier votre connexion internet et réessayer.');
       } finally {
-        // Reset button state
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.textContent = submitBtnOriginalText;

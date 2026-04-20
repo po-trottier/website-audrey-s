@@ -472,6 +472,12 @@ p {
   justify-content: center;
 }
 
+.form-modal-icon {
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: var(--space-4);
+}
+
 /* ==========================================================================
    4. UTILITY CLASSES
    ========================================================================== */

@@ -198,16 +198,14 @@ export async function onRequestPost(context) {
     });
 
     if (context.env.EMAIL_WORKER) {
-      // Production: send via email-sender Worker (Service Binding)
-      const res = await context.env.EMAIL_WORKER.fetch("https://email-worker/send", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ from: fromEmail, to: toEmail, raw: mimeMessage }),
-      });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.error || "Email worker returned an error");
-      }
+      // Production: send in background so the user gets an instant response
+      context.waitUntil(
+        context.env.EMAIL_WORKER.fetch("https://email-worker/send", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ from: fromEmail, to: toEmail, raw: mimeMessage }),
+        }).catch((err) => console.error("Email send failed:", err))
+      );
     } else {
       // Local development fallback: log to console
       console.log("=== EMAIL (dev mode — EMAIL_WORKER binding not available) ===");
@@ -215,9 +213,9 @@ export async function onRequestPost(context) {
       console.log("=== END EMAIL ===");
     }
 
-    // 8. Success response ---------------------------------------------------
+    // 8. Success response (returned immediately, email sends in background)
     return new Response(
-      JSON.stringify({ success: true, message: "Votre message a ete envoye avec succes. Merci !" }),
+      JSON.stringify({ success: true }),
       { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders() } }
     );
   } catch (err) {
