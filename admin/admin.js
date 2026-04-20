@@ -450,6 +450,11 @@ function getSections() {
   return SECTIONS.filter(s => !s.divider);
 }
 
+function getSectionLabel(sectionDef) {
+  const data = content[sectionDef.key];
+  return (data && (data.heading || data.title)) || sectionDef.label;
+}
+
 function getDividerForSection(sectionKey) {
   let lastDivider = null;
   for (const s of SECTIONS) {
@@ -479,7 +484,7 @@ function renderSections() {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'admin-sidebar-item';
-    btn.textContent = section.label;
+    btn.textContent = getSectionLabel(section);
     btn.dataset.section = section.key;
     btn.addEventListener('click', () => showSection(section.key));
     sidebar.appendChild(btn);
@@ -491,7 +496,7 @@ function renderSections() {
     const tab = document.createElement('button');
     tab.type = 'button';
     tab.className = 'admin-mobile-tab';
-    tab.textContent = section.label;
+    tab.textContent = getSectionLabel(section);
     tab.dataset.section = section.key;
     tab.addEventListener('click', () => showSection(section.key));
     mobileTabs.appendChild(tab);
@@ -509,14 +514,19 @@ function showSection(sectionKey) {
   const sectionDef = getSections().find(s => s.key === sectionKey);
   if (!sectionDef) return;
 
-  // Update sidebar active state
+  // Update sidebar labels and active state
+  const sections = getSections();
   document.querySelectorAll('.admin-sidebar-item').forEach(el => {
     el.classList.toggle('active', el.dataset.section === sectionKey);
+    const def = sections.find(s => s.key === el.dataset.section);
+    if (def) el.textContent = getSectionLabel(def);
   });
 
-  // Update mobile tab active state
+  // Update mobile tab labels and active state
   document.querySelectorAll('.admin-mobile-tab').forEach(el => {
     el.classList.toggle('active', el.dataset.section === sectionKey);
+    const def = sections.find(s => s.key === el.dataset.section);
+    if (def) el.textContent = getSectionLabel(def);
   });
 
   // Scroll active mobile tab into view
@@ -532,7 +542,7 @@ function showSection(sectionKey) {
 
   const title = document.createElement('div');
   title.className = 'admin-content-title';
-  title.textContent = sectionDef.label;
+  title.textContent = getSectionLabel(sectionDef);
   card.appendChild(title);
 
   // Build field grid with sub-groups
