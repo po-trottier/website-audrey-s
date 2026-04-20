@@ -10,6 +10,49 @@ const CONTENT_PATH = 'content/settings.json';
 const IMAGES_PATH = 'assets/images';
 const GITHUB_API = 'https://api.github.com';
 
+const COLOR_CSS_MAP = {
+  primary: '--color-primary',
+  primary_dark: '--color-primary-dark',
+  primary_light: '--color-primary-light',
+  accent: '--color-accent',
+  accent_dark: '--color-accent-dark',
+  text: '--color-text',
+  text_light: '--color-text-light',
+  bg: '--color-bg',
+  bg_light: '--color-bg-light',
+  bg_dark: '--color-bg-dark',
+  border: '--color-border',
+};
+
+function applyColorTheme() {
+  if (!content.colors) return;
+  for (const [key, cssVar] of Object.entries(COLOR_CSS_MAP)) {
+    const val = content.colors[key];
+    if (val && /^#[0-9a-fA-F]{3,8}$/.test(val)) {
+      document.documentElement.style.setProperty(cssVar, val);
+    }
+  }
+}
+
+function bindLiveColorTheming(card) {
+  card.querySelectorAll('.admin-color-picker, .admin-color-text').forEach(input => {
+    input.addEventListener('input', () => {
+      const textInput = input.type === 'color'
+        ? input.closest('.admin-field')?.querySelector('.admin-color-text')
+        : input;
+      if (!textInput) return;
+      const path = textInput.dataset.path;
+      if (!path) return;
+      const colorKey = path.split('.').pop();
+      const cssVar = COLOR_CSS_MAP[colorKey];
+      const val = input.type === 'color' ? input.value : input.value;
+      if (cssVar && /^#[0-9a-fA-F]{3,8}$/.test(val)) {
+        document.documentElement.style.setProperty(cssVar, val);
+      }
+    });
+  });
+}
+
 let content = {};          // Current content state (mirrors settings.json)
 let contentSha = '';       // SHA of current settings.json (needed for updates)
 let pendingImages = [];    // { path, base64, file } — images to upload on publish
@@ -37,13 +80,13 @@ const SECTIONS = [
     key: 'hero',
     label: 'Bannière principale',
     fields: [
-      { key: 'title', label: 'Titre', type: 'text', hint: 'Titre principal affiché en grand sur la bannière d\'accueil.' },
-      { key: 'subtitle', label: 'Sous-titre', type: 'textarea', hint: 'Texte d\'accroche sous le titre principal.' },
-      { key: 'image', label: 'Image de fond', type: 'image', hint: 'Image en arrière-plan de la bannière. Format large recommandé (1920x1080px).' },
-      { key: 'cta_text', label: 'Bouton principal — texte', type: 'text', hint: 'Texte du bouton d\'action principal (ex: « Prendre rendez-vous »).' },
-      { key: 'cta_link', label: 'Bouton principal — lien', type: 'text', plain: true, hint: 'URL ou ancre (ex: #contact).' },
-      { key: 'cta2_text', label: 'Bouton secondaire — texte', type: 'text', hint: 'Texte du deuxième bouton (optionnel). Laissez vide pour masquer.' },
-      { key: 'cta2_link', label: 'Bouton secondaire — lien', type: 'text', plain: true, hint: 'URL ou ancre du bouton secondaire.' },
+      { key: 'title', label: 'Titre', type: 'text', group: 'Contenu', hint: 'Titre principal affiché en grand sur la bannière d\'accueil.' },
+      { key: 'subtitle', label: 'Sous-titre', type: 'textarea', group: 'Contenu', hint: 'Texte d\'accroche sous le titre principal.' },
+      { key: 'image', label: 'Image de fond', type: 'image', group: 'Image', hint: 'Image en arrière-plan de la bannière. Format large recommandé (1920x1080px).' },
+      { key: 'cta_text', label: 'Bouton principal — texte', type: 'text', group: 'Boutons', hint: 'Texte du bouton d\'action principal (ex: « Prendre rendez-vous »).' },
+      { key: 'cta_link', label: 'Bouton principal — lien', type: 'text', plain: true, group: 'Boutons', hint: 'URL ou ancre (ex: #contact).' },
+      { key: 'cta2_text', label: 'Bouton secondaire — texte', type: 'text', group: 'Boutons', hint: 'Texte du deuxième bouton (optionnel). Laissez vide pour masquer.' },
+      { key: 'cta2_link', label: 'Bouton secondaire — lien', type: 'text', plain: true, group: 'Boutons', hint: 'URL ou ancre du bouton secondaire.' },
     ],
   },
   {
@@ -114,31 +157,31 @@ const SECTIONS = [
     key: 'contact',
     label: 'Contact',
     fields: [
-      { key: 'heading', label: 'Titre', type: 'text', hint: 'Titre de la section contact.' },
-      { key: 'subtitle', label: 'Sous-titre', type: 'textarea', hint: 'Court texte d\'invitation à prendre contact.' },
-      { key: 'phone', label: 'Téléphone', type: 'text', plain: true, hint: 'Numéro affiché sur le site (ex: +1 514 555-0123).' },
-      { key: 'address', label: 'Adresse', type: 'text', plain: true, hint: 'Ville ou région desservie.' },
-      { key: 'info_heading', label: 'Titre info de contact', type: 'text', hint: 'Titre au-dessus du téléphone et de l\'adresse (ex: « Nous joindre »).' },
-      { key: 'phone_label', label: 'Libellé téléphone', type: 'text', hint: 'Libellé affiché devant le numéro (ex: « Téléphone »).' },
-      { key: 'address_label', label: 'Libellé adresse', type: 'text', hint: 'Libellé affiché devant l\'adresse (ex: « Adresse »).' },
-      { key: 'consultation_heading', label: 'Encart consultation — titre', type: 'text', hint: 'Titre de l\'encart de première consultation.' },
-      { key: 'consultation_text', label: 'Encart consultation — texte', type: 'textarea', hint: 'Texte d\'invitation à la première consultation.' },
-      { key: 'form_name_label', label: 'Formulaire — libellé nom', type: 'text', plain: true },
-      { key: 'form_name_placeholder', label: 'Formulaire — placeholder nom', type: 'text', plain: true },
-      { key: 'form_email_label', label: 'Formulaire — libellé courriel', type: 'text', plain: true },
-      { key: 'form_email_placeholder', label: 'Formulaire — placeholder courriel', type: 'text', plain: true },
-      { key: 'form_phone_label', label: 'Formulaire — libellé téléphone', type: 'text', plain: true },
-      { key: 'form_phone_placeholder', label: 'Formulaire — placeholder téléphone', type: 'text', plain: true },
-      { key: 'form_subject_label', label: 'Formulaire — libellé sujet', type: 'text', plain: true },
-      { key: 'form_subject_placeholder', label: 'Formulaire — placeholder sujet', type: 'text', plain: true },
-      { key: 'form_message_label', label: 'Formulaire — libellé message', type: 'text', plain: true },
-      { key: 'form_message_placeholder', label: 'Formulaire — placeholder message', type: 'text', plain: true },
-      { key: 'form_submit', label: 'Formulaire — bouton envoyer', type: 'text', plain: true },
-      { key: 'form_sending', label: 'Formulaire — texte envoi en cours', type: 'text', plain: true },
-      { key: 'form_success', label: 'Formulaire — message de succès', type: 'textarea', plain: true, hint: 'Message affiché dans le dialogue après envoi réussi.' },
-      { key: 'form_error', label: 'Formulaire — message d\'erreur', type: 'text', plain: true },
-      { key: 'form_network_error', label: 'Formulaire — erreur de connexion', type: 'text', plain: true },
-      { key: 'form_close', label: 'Formulaire — bouton fermer', type: 'text', plain: true },
+      { key: 'heading', label: 'Titre', type: 'text', group: 'Informations', hint: 'Titre de la section contact.' },
+      { key: 'subtitle', label: 'Sous-titre', type: 'textarea', group: 'Informations', hint: 'Court texte d\'invitation à prendre contact.' },
+      { key: 'phone', label: 'Téléphone', type: 'text', plain: true, group: 'Informations', hint: 'Numéro affiché sur le site (ex: +1 514 555-0123).' },
+      { key: 'address', label: 'Adresse', type: 'text', plain: true, group: 'Informations', hint: 'Ville ou région desservie.' },
+      { key: 'info_heading', label: 'Titre info de contact', type: 'text', group: 'Informations', hint: 'Titre au-dessus du téléphone et de l\'adresse (ex: « Nous joindre »).' },
+      { key: 'phone_label', label: 'Libellé téléphone', type: 'text', group: 'Informations', hint: 'Libellé affiché devant le numéro (ex: « Téléphone »).' },
+      { key: 'address_label', label: 'Libellé adresse', type: 'text', group: 'Informations', hint: 'Libellé affiché devant l\'adresse (ex: « Adresse »).' },
+      { key: 'consultation_heading', label: 'Encart consultation — titre', type: 'text', group: 'Encart consultation', hint: 'Titre de l\'encart de première consultation.' },
+      { key: 'consultation_text', label: 'Encart consultation — texte', type: 'textarea', group: 'Encart consultation', hint: 'Texte d\'invitation à la première consultation.' },
+      { key: 'form_name_label', label: 'Formulaire — libellé nom', type: 'text', plain: true, group: 'Formulaire — Libellés' },
+      { key: 'form_name_placeholder', label: 'Formulaire — placeholder nom', type: 'text', plain: true, group: 'Formulaire — Libellés' },
+      { key: 'form_email_label', label: 'Formulaire — libellé courriel', type: 'text', plain: true, group: 'Formulaire — Libellés' },
+      { key: 'form_email_placeholder', label: 'Formulaire — placeholder courriel', type: 'text', plain: true, group: 'Formulaire — Libellés' },
+      { key: 'form_phone_label', label: 'Formulaire — libellé téléphone', type: 'text', plain: true, group: 'Formulaire — Libellés' },
+      { key: 'form_phone_placeholder', label: 'Formulaire — placeholder téléphone', type: 'text', plain: true, group: 'Formulaire — Libellés' },
+      { key: 'form_subject_label', label: 'Formulaire — libellé sujet', type: 'text', plain: true, group: 'Formulaire — Libellés' },
+      { key: 'form_subject_placeholder', label: 'Formulaire — placeholder sujet', type: 'text', plain: true, group: 'Formulaire — Libellés' },
+      { key: 'form_message_label', label: 'Formulaire — libellé message', type: 'text', plain: true, group: 'Formulaire — Libellés' },
+      { key: 'form_message_placeholder', label: 'Formulaire — placeholder message', type: 'text', plain: true, group: 'Formulaire — Libellés' },
+      { key: 'form_submit', label: 'Formulaire — bouton envoyer', type: 'text', plain: true, group: 'Formulaire — Messages' },
+      { key: 'form_sending', label: 'Formulaire — texte envoi en cours', type: 'text', plain: true, group: 'Formulaire — Messages' },
+      { key: 'form_success', label: 'Formulaire — message de succès', type: 'textarea', plain: true, group: 'Formulaire — Messages', hint: 'Message affiché dans le dialogue après envoi réussi.' },
+      { key: 'form_error', label: 'Formulaire — message d\'erreur', type: 'text', plain: true, group: 'Formulaire — Messages' },
+      { key: 'form_network_error', label: 'Formulaire — erreur de connexion', type: 'text', plain: true, group: 'Formulaire — Messages' },
+      { key: 'form_close', label: 'Formulaire — bouton fermer', type: 'text', plain: true, group: 'Formulaire — Messages' },
     ],
     list: {
       key: 'form_subjects',
@@ -241,6 +284,24 @@ const SECTIONS = [
   $btnPublish.addEventListener('click', handlePublish);
 })();
 
+// Actions popover (mobile)
+(function initPopover() {
+  const toggle = document.getElementById('btn-actions-toggle');
+  const popover = document.getElementById('actions-popover');
+  const previewMobile = document.getElementById('btn-preview-mobile');
+  const publishMobile = document.getElementById('btn-publish-mobile');
+  if (!toggle || !popover) return;
+
+  toggle.addEventListener('click', () => popover.classList.toggle('hidden'));
+  document.addEventListener('click', (e) => {
+    if (!toggle.contains(e.target) && !popover.contains(e.target)) {
+      popover.classList.add('hidden');
+    }
+  });
+  if (previewMobile) previewMobile.addEventListener('click', () => { popover.classList.add('hidden'); handlePreview(); });
+  if (publishMobile) publishMobile.addEventListener('click', () => { popover.classList.add('hidden'); handlePublish(); });
+})();
+
 async function handleLogin() {
   // Redirect to GitHub OAuth via our Cloudflare Function
   $loginBtn.disabled = true;
@@ -276,6 +337,7 @@ function showEditor() {
   $loginScreen.remove();
   $editorScreen.style.display = '';
   $editorScreen.classList.remove('hidden');
+  applyColorTheme();
   renderSections();
 }
 
@@ -382,62 +444,133 @@ async function loadContent() {
 //  RENDER SECTIONS
 // ============================================================================
 
-function renderSections() {
-  $sections.innerHTML = '';
-  SECTIONS.forEach(section => {
-    if (section.divider) {
-      const divider = document.createElement('div');
-      divider.className = 'admin-divider';
-      divider.innerHTML = `<span>${esc(section.label)}</span>`;
-      $sections.appendChild(divider);
-      return;
-    }
-    $sections.appendChild(createSection(section));
-  });
+let activeSection = null;
+
+function getSections() {
+  return SECTIONS.filter(s => !s.divider);
 }
 
-function createSection(sectionDef) {
-  const wrapper = document.createElement('div');
-  wrapper.className = 'admin-section';
-  wrapper.dataset.section = sectionDef.key;
+function getDividerForSection(sectionKey) {
+  let lastDivider = null;
+  for (const s of SECTIONS) {
+    if (s.divider) lastDivider = s.label;
+    else if (s.key === sectionKey) return lastDivider;
+  }
+  return null;
+}
 
-  // Header
-  const header = document.createElement('button');
-  header.className = 'admin-section-header';
-  header.type = 'button';
-  header.innerHTML = `
-    <span>${esc(sectionDef.label)}</span>
-    <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none"
-         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="6 9 12 15 18 9"></polyline>
-    </svg>
-  `;
-  header.addEventListener('click', () => {
-    wrapper.classList.toggle('open');
+function renderSections() {
+  const sidebar = document.getElementById('admin-sidebar');
+  const mobileTabs = document.getElementById('mobile-tabs');
+  const sections = getSections();
+
+  // Build sidebar
+  sidebar.innerHTML = '';
+  let currentDivider = null;
+  sections.forEach(section => {
+    const divider = getDividerForSection(section.key);
+    if (divider !== currentDivider) {
+      currentDivider = divider;
+      const groupEl = document.createElement('div');
+      groupEl.className = 'admin-sidebar-group';
+      groupEl.textContent = divider;
+      sidebar.appendChild(groupEl);
+    }
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'admin-sidebar-item';
+    btn.textContent = section.label;
+    btn.dataset.section = section.key;
+    btn.addEventListener('click', () => showSection(section.key));
+    sidebar.appendChild(btn);
   });
 
-  // Content area
-  const contentArea = document.createElement('div');
-  contentArea.className = 'admin-section-content';
+  // Build mobile tabs
+  mobileTabs.innerHTML = '';
+  sections.forEach(section => {
+    const tab = document.createElement('button');
+    tab.type = 'button';
+    tab.className = 'admin-mobile-tab';
+    tab.textContent = section.label;
+    tab.dataset.section = section.key;
+    tab.addEventListener('click', () => showSection(section.key));
+    mobileTabs.appendChild(tab);
+  });
 
-  const inner = document.createElement('div');
-  inner.className = 'admin-section-inner';
+  // Show first section
+  showSection(sections[0].key);
+}
 
-  // Render simple fields
+function showSection(sectionKey) {
+  // Save current section's edits before switching
+  collectContent();
+
+  activeSection = sectionKey;
+  const sectionDef = getSections().find(s => s.key === sectionKey);
+  if (!sectionDef) return;
+
+  // Update sidebar active state
+  document.querySelectorAll('.admin-sidebar-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.section === sectionKey);
+  });
+
+  // Update mobile tab active state
+  document.querySelectorAll('.admin-mobile-tab').forEach(el => {
+    el.classList.toggle('active', el.dataset.section === sectionKey);
+  });
+
+  // Scroll active mobile tab into view
+  const activeTab = document.querySelector('.admin-mobile-tab.active');
+  if (activeTab) activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+
+  // Render section content
+  const container = document.getElementById('sections-container');
+  container.innerHTML = '';
+
+  const card = document.createElement('div');
+  card.className = 'admin-content-card';
+
+  const title = document.createElement('div');
+  title.className = 'admin-content-title';
+  title.textContent = sectionDef.label;
+  card.appendChild(title);
+
+  // Build field grid with sub-groups
+  const grid = document.createElement('div');
+  grid.className = 'admin-field-grid';
+
   const sectionData = content[sectionDef.key] || {};
+  let currentGroup = null;
+
   sectionDef.fields.forEach(field => {
-    inner.appendChild(createField(sectionDef.key, field, sectionData[field.key]));
+    if (field.group && field.group !== currentGroup) {
+      currentGroup = field.group;
+      const header = document.createElement('div');
+      header.className = 'admin-subgroup-header';
+      header.textContent = field.group;
+      grid.appendChild(header);
+    }
+
+    const fieldEl = createField(sectionDef.key, field, sectionData[field.key]);
+    const isFullWidth = field.type === 'textarea' || field.type === 'image';
+    if (isFullWidth) fieldEl.classList.add('admin-field-full');
+    grid.appendChild(fieldEl);
   });
 
-  // Render list if present
+  card.appendChild(grid);
+
   if (sectionDef.list) {
-    inner.appendChild(createListEditor(sectionDef.key, sectionDef.list, sectionData[sectionDef.list.key] || []));
+    card.appendChild(createListEditor(sectionDef.key, sectionDef.list, sectionData[sectionDef.list.key] || []));
   }
 
-  contentArea.appendChild(inner);
-  wrapper.appendChild(header);
-  wrapper.appendChild(contentArea);
-  return wrapper;
+  container.appendChild(card);
+
+  // Scroll content to top
+  document.querySelector('.admin-content')?.scrollTo(0, 0);
+
+  if (sectionKey === 'colors') {
+    bindLiveColorTheming(card);
+  }
 }
 
 // ============================================================================
@@ -973,8 +1106,35 @@ function handlePreview() {
 //  PUBLISH
 // ============================================================================
 
+function showPublishConfirmation() {
+  return new Promise((resolve) => {
+    const modal = document.getElementById('publish-modal');
+    const cancelBtn = document.getElementById('publish-cancel');
+    const confirmBtn = document.getElementById('publish-confirm');
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+
+    function cleanup(result) {
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+      cancelBtn.removeEventListener('click', onCancel);
+      confirmBtn.removeEventListener('click', onConfirm);
+      modal.removeEventListener('click', onBackdrop);
+      resolve(result);
+    }
+    function onCancel() { cleanup(false); }
+    function onConfirm() { cleanup(true); }
+    function onBackdrop(e) { if (e.target === modal) cleanup(false); }
+
+    cancelBtn.addEventListener('click', onCancel);
+    confirmBtn.addEventListener('click', onConfirm);
+    modal.addEventListener('click', onBackdrop);
+  });
+}
+
 async function handlePublish() {
-  if (!confirm('Publier les modifications ? Le site sera reconstruit automatiquement.')) return;
+  const confirmed = await showPublishConfirmation();
+  if (!confirmed) return;
 
   collectContent();
   $btnPublish.disabled = true;
