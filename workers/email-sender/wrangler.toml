@@ -1,0 +1,7 @@
+name = "email-sender"
+main = "index.js"
+compatibility_date = "2026-04-20"
+
+[[send_email]]
+name = "SEND_EMAIL"
+destination_address = "contact@audreyhauteurdenfant.com"

@@ -190,17 +190,24 @@ export async function onRequestPost(context) {
       body: formattedBody,
     });
 
-    if (context.env.SEND_EMAIL) {
-      // Production: use Cloudflare Email Routing binding
-      const emailMessage = new EmailMessage(
-        "contact@audreyhauteurdenfant.com",
-        context.env.CONTACT_EMAIL || "contact@audreyhauteurdenfant.com",
-        mimeMessage
-      );
-      await context.env.SEND_EMAIL.send(emailMessage);
+    if (context.env.EMAIL_WORKER) {
+      // Production: send via email-sender Worker (Service Binding)
+      const res = await context.env.EMAIL_WORKER.fetch("https://email-worker/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          from: "contact@audreyhauteurdenfant.com",
+          to: context.env.CONTACT_EMAIL || "contact@audreyhauteurdenfant.com",
+          raw: mimeMessage,
+        }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "Email worker returned an error");
+      }
     } else {
       // Local development fallback: log to console
-      console.log("=== EMAIL (dev mode — SEND_EMAIL binding not available) ===");
+      console.log("=== EMAIL (dev mode — EMAIL_WORKER binding not available) ===");
       console.log(mimeMessage);
       console.log("=== END EMAIL ===");
     }
