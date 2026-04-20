@@ -9,5 +9,6 @@ GITHUB_CLIENT_SECRET=
 # Use test key for local dev: 1x0000000000000000000000000000000AA
 TURNSTILE_SECRET=
 
-# Contact form destination
+# Contact form
 CONTACT_EMAIL=
+CONTACT_DESTINATION=
