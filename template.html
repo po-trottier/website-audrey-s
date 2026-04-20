@@ -346,36 +346,37 @@
        FOOTER
        ================================================================ -->
   <footer class="bg-dark text-white py-12">
-    <div class="container flex flex-col md:flex-row justify-between items-center gap-6">
-      <!-- Business info -->
-      <div class="text-center md:text-left">
-        <p class="font-semibold text-lg">{{footer.business_name}}</p>
-        <p class="text-sm" style="color: rgba(255,255,255,0.6);">{{footer.credentials}}</p>
+    <div class="container">
+      <!-- Top row: business info + navigation -->
+      <div class="flex flex-col md:flex-row justify-between items-center gap-8 mb-8">
+        <div class="text-center md:text-left">
+          <p class="font-semibold text-lg">{{footer.business_name}}</p>
+          <p class="text-sm" style="color: rgba(255,255,255,0.6);">{{footer.credentials}}</p>
+        </div>
+        <nav class="flex flex-wrap justify-center gap-6">
+          <a href="#services" class="text-sm transition" style="color: rgba(255,255,255,0.7);">{{nav.services}}</a>
+          <a href="#about" class="text-sm transition" style="color: rgba(255,255,255,0.7);">{{nav.about}}</a>
+          <a href="#education" class="text-sm transition" style="color: rgba(255,255,255,0.7);">{{nav.education}}</a>
+          <a href="#faq" class="text-sm transition" style="color: rgba(255,255,255,0.7);">{{nav.faq}}</a>
+          <a href="#contact" class="text-sm transition" style="color: rgba(255,255,255,0.7);">{{nav.contact}}</a>
+        </nav>
       </div>
 
-      <!-- Footer nav -->
-      <nav class="flex flex-wrap justify-center gap-6">
-        <a href="#services" class="text-sm transition" style="color: rgba(255,255,255,0.7);">{{nav.services}}</a>
-        <a href="#about" class="text-sm transition" style="color: rgba(255,255,255,0.7);">{{nav.about}}</a>
-        <a href="#education" class="text-sm transition" style="color: rgba(255,255,255,0.7);">{{nav.education}}</a>
-        <a href="#faq" class="text-sm transition" style="color: rgba(255,255,255,0.7);">{{nav.faq}}</a>
-        <a href="#contact" class="text-sm transition" style="color: rgba(255,255,255,0.7);">{{nav.contact}}</a>
-        <a href="/admin/" class="text-sm transition" style="color: rgba(255,255,255,0.4);">{{footer.admin_link_label}}</a>
-      </nav>
+      <!-- Divider -->
+      <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: var(--space-6);"></div>
 
-      <!-- Legal links -->
-      <div class="flex flex-wrap justify-center gap-4">
-        {{#if footer.privacy_link}}
-        <a href="{{footer.privacy_link}}" class="text-xs transition" style="color: rgba(255,255,255,0.5);">{{footer.privacy_label}}</a>
-        {{/if}}
-        {{#if footer.legal_link}}
-        <a href="{{footer.legal_link}}" class="text-xs transition" style="color: rgba(255,255,255,0.5);">{{footer.legal_label}}</a>
-        {{/if}}
-      </div>
-
-      <!-- Copyright -->
-      <div class="text-center md:text-left">
-        <p class="text-sm" style="color: rgba(255,255,255,0.6);">{{currentYear}} {{footer.business_name}}. {{footer.copyright}}</p>
+      <!-- Bottom row: legal links + copyright -->
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="flex flex-wrap justify-center gap-4">
+          {{#if footer.privacy_link}}
+          <a href="{{footer.privacy_link}}" class="text-xs transition" style="color: rgba(255,255,255,0.5);">{{footer.privacy_label}}</a>
+          {{/if}}
+          {{#if footer.legal_link}}
+          <a href="{{footer.legal_link}}" class="text-xs transition" style="color: rgba(255,255,255,0.5);">{{footer.legal_label}}</a>
+          {{/if}}
+          <a href="/admin/" class="text-xs transition" style="color: rgba(255,255,255,0.3);">{{footer.admin_link_label}}</a>
+        </div>
+        <p class="text-xs" style="color: rgba(255,255,255,0.4);">© {{currentYear}} {{footer.business_name}}. {{footer.copyright}}</p>
       </div>
     </div>
   </footer>
