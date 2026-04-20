@@ -221,7 +221,6 @@ export async function onRequestPost(context) {
     );
   } catch (err) {
     console.error("Contact form error:", err);
-    const debug = context.request.headers.get("X-Debug") === "true" ? ` [${err.message}]` : "";
-    return errorResponse(`Une erreur interne est survenue. Veuillez reessayer plus tard.${debug}`, 500);
+    return errorResponse("Une erreur interne est survenue. Veuillez reessayer plus tard.", 500);
   }
 }
