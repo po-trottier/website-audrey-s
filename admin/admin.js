@@ -182,13 +182,23 @@ const SECTIONS = [
       { key: 'form_error', label: 'Formulaire — message d\'erreur', type: 'text', plain: true, group: 'Formulaire — Messages' },
       { key: 'form_network_error', label: 'Formulaire — erreur de connexion', type: 'text', plain: true, group: 'Formulaire — Messages' },
       { key: 'form_close', label: 'Formulaire — bouton fermer', type: 'text', plain: true, group: 'Formulaire — Messages' },
+      { key: 'form_referral_label', label: 'Formulaire — libellé référence', type: 'text', plain: true, group: 'Formulaire — Référence' },
+      { key: 'form_referral_placeholder', label: 'Formulaire — placeholder référence', type: 'text', plain: true, group: 'Formulaire — Référence' },
     ],
-    list: {
-      key: 'form_subjects',
-      fields: [
-        { key: 'title', label: 'Sujet', type: 'text' },
-      ],
-    },
+    lists: [
+      {
+        key: 'form_subjects',
+        fields: [
+          { key: 'title', label: 'Sujet', type: 'text' },
+        ],
+      },
+      {
+        key: 'referral_sources',
+        fields: [
+          { key: 'title', label: 'Source', type: 'text' },
+        ],
+      },
+    ],
   },
   {
     key: 'footer',
@@ -196,9 +206,12 @@ const SECTIONS = [
     fields: [
       { key: 'business_name', label: 'Nom commercial', type: 'text', hint: 'Nom affiché dans le bas de page.' },
       { key: 'credentials', label: 'Accréditations', type: 'text', hint: 'Numéro de membre, ordre professionnel, etc.' },
-      { key: 'privacy_link', label: 'Lien politique de confidentialité', type: 'text', plain: true, hint: 'URL vers votre politique de confidentialité (optionnel).' },
+      { key: 'privacy_link', label: 'Lien politique de confidentialité', type: 'text', plain: true, hint: 'URL de la page (ex: /politique-de-confidentialite.html).' },
+      { key: 'privacy_label', label: 'Libellé confidentialité', type: 'text', plain: true, hint: 'Texte du lien (ex: « Politique de confidentialité »).' },
+      { key: 'legal_link', label: 'Lien mentions légales', type: 'text', plain: true, hint: 'URL de la page (ex: /mentions-legales.html).' },
+      { key: 'legal_label', label: 'Libellé mentions légales', type: 'text', plain: true, hint: 'Texte du lien (ex: « Mentions légales »).' },
       { key: 'copyright', label: 'Mention légale', type: 'text', plain: true, hint: 'Texte après le nom commercial (ex: « Tous droits réservés. »).' },
-      { key: 'admin_label', label: 'Libellé lien admin', type: 'text', plain: true, hint: 'Texte du lien vers le panneau d\'administration dans le pied de page.' },
+      { key: 'admin_link_label', label: 'Libellé lien admin', type: 'text', plain: true, hint: 'Texte du lien vers le panneau d\'administration dans le pied de page.' },
     ],
   },
   // --- Divider ---
@@ -597,8 +610,10 @@ function showSection(sectionKey) {
 
   card.appendChild(grid);
 
-  if (sectionDef.list) {
-    card.appendChild(createListEditor(sectionDef.key, sectionDef.list, sectionData[sectionDef.list.key] || []));
+  // Support both single `list` and multiple `lists`
+  const allLists = sectionDef.lists || (sectionDef.list ? [sectionDef.list] : []);
+  for (const listDef of allLists) {
+    card.appendChild(createListEditor(sectionDef.key, listDef, sectionData[listDef.key] || []));
   }
 
   container.appendChild(card);

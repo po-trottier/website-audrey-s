@@ -122,6 +122,7 @@ export async function onRequestPost(context) {
     const email = sanitize(data.email);
     const phone = sanitize(data.phone || "");
     const subject = sanitize(data.subject);
+    const referral = sanitize(data.referral || "");
     const message = sanitize(data.message);
     const turnstileToken = sanitize(data["cf-turnstile-response"] || data.turnstileToken || "");
 
@@ -171,6 +172,7 @@ export async function onRequestPost(context) {
       `  Email : ${email}`,
       phone ? `  Telephone : ${phone}` : null,
       `  Sujet : ${subject}`,
+      referral ? `  Source : ${referral}` : null,
       ``,
       `----------------------------------------------`,
       `Message :`,

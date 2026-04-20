@@ -292,6 +292,16 @@
               <textarea id="contact-message" name="message" class="textarea" required rows="5" placeholder="{{contact.form_message_placeholder}}"></textarea>
             </div>
 
+            <div class="form-group">
+              <label for="contact-referral" class="form-label">{{contact.form_referral_label}} <span class="form-optional">(facultatif)</span></label>
+              <select id="contact-referral" name="referral" class="select">
+                <option value="">{{contact.form_referral_placeholder}}</option>
+                {{#each contact.referral_sources}}
+                <option value="{{title}}">{{title}}</option>
+                {{/each}}
+              </select>
+            </div>
+
             <!-- Turnstile -->
             <div class="cf-turnstile mb-4" data-sitekey="{{turnstile_sitekey}}"></div>
 
@@ -350,8 +360,18 @@
         <a href="#education" class="text-sm transition" style="color: rgba(255,255,255,0.7);">{{nav.education}}</a>
         <a href="#faq" class="text-sm transition" style="color: rgba(255,255,255,0.7);">{{nav.faq}}</a>
         <a href="#contact" class="text-sm transition" style="color: rgba(255,255,255,0.7);">{{nav.contact}}</a>
-        <a href="/admin/" class="text-sm transition" style="color: rgba(255,255,255,0.4);">{{footer.admin_label}}</a>
+        <a href="/admin/" class="text-sm transition" style="color: rgba(255,255,255,0.4);">{{footer.admin_link_label}}</a>
       </nav>
+
+      <!-- Legal links -->
+      <div class="flex flex-wrap justify-center gap-4">
+        {{#if footer.privacy_link}}
+        <a href="{{footer.privacy_link}}" class="text-xs transition" style="color: rgba(255,255,255,0.5);">{{footer.privacy_label}}</a>
+        {{/if}}
+        {{#if footer.legal_link}}
+        <a href="{{footer.legal_link}}" class="text-xs transition" style="color: rgba(255,255,255,0.5);">{{footer.legal_label}}</a>
+        {{/if}}
+      </div>
 
       <!-- Copyright -->
       <div class="text-center md:text-left">

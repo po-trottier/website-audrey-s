@@ -175,10 +175,19 @@
     "form_error": "Une erreur est survenue. Veuillez réessayer.",
     "form_network_error": "Erreur de connexion. Veuillez vérifier votre connexion internet et réessayer.",
     "form_close": "Fermer",
+    "form_referral_label": "Comment avez-vous entendu parler de nous ?",
+    "form_referral_placeholder": "Sélectionnez une option",
     "form_subjects": [
       { "title": "Évaluation psychosociale" },
       { "title": "Médiation familiale" },
       { "title": "Consultation" },
+      { "title": "Autre" }
+    ],
+    "referral_sources": [
+      { "title": "Recherche internet" },
+      { "title": "Recommandation d'un professionnel" },
+      { "title": "Bouche-à-oreille" },
+      { "title": "Réseaux sociaux" },
       { "title": "Autre" }
     ]
   },
@@ -186,9 +195,12 @@
     "admin_label": "Pied de page",
     "business_name": "Audrey Stypulkowski, T.S.",
     "credentials": "Membre de l'OTSTCFQ — No. XXXXX",
-    "privacy_link": "",
+    "privacy_link": "/politique-de-confidentialite.html",
+    "legal_link": "/mentions-legales.html",
+    "privacy_label": "Politique de confidentialité",
+    "legal_label": "Mentions légales",
     "copyright": "Tous droits réservés.",
-    "admin_label": "Administration"
+    "admin_link_label": "Administration"
   },
   "colors": {
     "admin_label": "Couleurs",
