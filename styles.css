@@ -59,11 +59,6 @@ select {
   color: inherit;
 }
 
-ul,
-ol {
-  list-style: none;
-}
-
 h1, h2, h3, h4, h5, h6 {
   line-height: 1.2;
   overflow-wrap: break-word;
@@ -444,10 +439,6 @@ p {
   margin: 0 auto var(--space-4);
   border-radius: var(--rounded-lg);
 }
-
-/* --- Markdown content: restores default list bullets (reset strips them globally) --- */
-.prose ul { list-style: disc; padding-left: var(--space-6); }
-.prose ol { list-style: decimal; padding-left: var(--space-6); }
 
 /* --- Form layout --- */
 .form-group {

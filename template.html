@@ -80,7 +80,7 @@
       <img src="{{popup.image}}" alt="" class="popup-image">
       {{/if}}
       <h2 id="popup-title" class="text-2xl font-bold mb-4 text-center">{{popup.title}}</h2>
-      <div class="text-light mb-6 leading-relaxed text-center prose">{{popup.message}}</div>
+      <div class="text-light mb-6 leading-relaxed text-center">{{popup.message}}</div>
       <button class="btn btn-primary w-full" id="popup-close">{{popup.dismiss_label}}</button>
     </div>
   </div>
@@ -146,7 +146,7 @@
         <!-- Text -->
         <div>
           <h2 class="text-3xl font-bold mb-6">{{about.title}}</h2>
-          <div class="text-light leading-relaxed prose">{{about.body}}</div>
+          <div class="text-light leading-relaxed">{{about.body}}</div>
         </div>
       </div>
 
@@ -206,7 +206,7 @@
         <!-- Text -->
         <div class="flex-1">
           <h3 class="text-2xl font-semibold mb-4">{{title}}</h3>
-          <div class="text-light leading-relaxed mb-4 prose">{{description}}</div>
+          <div class="text-light leading-relaxed mb-4">{{description}}</div>
           {{#if cta_text}}
           <a href="{{cta_link}}" class="btn btn-outline">{{cta_text}}</a>
           {{/if}}
@@ -231,7 +231,7 @@
             <svg class="accordion-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
           </button>
           <div class="accordion-content">
-            <div class="py-4 text-light leading-relaxed prose">{{answer}}</div>
+            <div class="py-4 text-light leading-relaxed">{{answer}}</div>
           </div>
         </div>
         {{/each}}
