@@ -318,7 +318,7 @@
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary" style="flex-shrink: 0; margin-top: 2px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
               <div>
                 <p class="font-medium">{{contact.address_label}}</p>
-                <p class="text-light">{{contact.address}}</p>
+                <a href="https://www.google.com/maps/search/?api=1&query={{contact.address}}" target="_blank" rel="noopener" class="text-primary">{{contact.address}}</a>
               </div>
             </div>
           </div>
