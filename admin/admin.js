@@ -75,7 +75,7 @@ const $toast        = document.getElementById('toast');
 // Describes the admin UI structure. Each section maps to a top-level key in
 // settings.json. Fields describe the form controls to render.
 const SECTIONS = [
-  { divider: true, label: 'Contenu de la page' },
+  { divider: true, label: 'Page principale' },
   {
     key: 'hero',
     label: 'Bannière principale',
@@ -215,7 +215,27 @@ const SECTIONS = [
     ],
   },
   // --- Divider ---
-  { divider: true, label: 'Paramètres globaux' },
+  { divider: true, label: 'Pages secondaires' },
+  {
+    key: 'privacy_page',
+    label: 'Politique de confidentialité',
+    fields: [
+      { key: 'title', label: 'Titre de la page', type: 'text' },
+      { key: 'updated', label: 'Date de mise à jour', type: 'text', plain: true, hint: 'Ex: « Dernière mise à jour : avril 2026 ».' },
+      { key: 'body', label: 'Contenu', type: 'textarea', hint: 'Contenu complet de la page. Supporte le Markdown.' },
+    ],
+  },
+  {
+    key: 'legal_page',
+    label: 'Mentions légales',
+    fields: [
+      { key: 'title', label: 'Titre de la page', type: 'text' },
+      { key: 'updated', label: 'Date de mise à jour', type: 'text', plain: true, hint: 'Ex: « Dernière mise à jour : avril 2026 ».' },
+      { key: 'body', label: 'Contenu', type: 'textarea', hint: 'Contenu complet de la page. Supporte le Markdown.' },
+    ],
+  },
+  // --- Divider ---
+  { divider: true, label: 'Configuration' },
   {
     key: 'header',
     label: 'En-tête',
@@ -256,24 +276,6 @@ const SECTIONS = [
       { key: 'description', label: 'Méta description', type: 'textarea', plain: true, hint: 'Description affichée sous le titre dans les résultats Google. Idéalement 150-160 caractères.' },
       { key: 'og_image', label: 'Image de partage', type: 'image', hint: 'Image affichée lorsque le site est partagé sur les réseaux sociaux (Facebook, LinkedIn, etc.). Format recommandé : 1200x630px.' },
       { key: 'favicon', label: 'Favicon', type: 'image', hint: 'Petite icône affichée dans l\'onglet du navigateur. Format SVG ou PNG carré recommandé (32x32px ou SVG).' },
-    ],
-  },
-  {
-    key: 'privacy_page',
-    label: 'Politique de confidentialité',
-    fields: [
-      { key: 'title', label: 'Titre de la page', type: 'text' },
-      { key: 'updated', label: 'Date de mise à jour', type: 'text', plain: true, hint: 'Ex: « Dernière mise à jour : avril 2026 ».' },
-      { key: 'body', label: 'Contenu', type: 'textarea', hint: 'Contenu complet de la page. Supporte le Markdown.' },
-    ],
-  },
-  {
-    key: 'legal_page',
-    label: 'Mentions légales',
-    fields: [
-      { key: 'title', label: 'Titre de la page', type: 'text' },
-      { key: 'updated', label: 'Date de mise à jour', type: 'text', plain: true, hint: 'Ex: « Dernière mise à jour : avril 2026 ».' },
-      { key: 'body', label: 'Contenu', type: 'textarea', hint: 'Contenu complet de la page. Supporte le Markdown.' },
     ],
   },
   {
