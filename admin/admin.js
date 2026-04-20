@@ -579,7 +579,7 @@ function createListEditor(sectionKey, listDef, items) {
   const listEl = document.createElement('div');
   listEl.className = 'admin-list-items';
   items.forEach((item, index) => {
-    listEl.appendChild(createListItem(sectionKey, listDef, item, index));
+    listEl.appendChild(createListItem(sectionKey, listDef, item, index, items.length));
   });
   container.appendChild(listEl);
 
@@ -623,7 +623,7 @@ function createListEditor(sectionKey, listDef, items) {
   return container;
 }
 
-function createListItem(sectionKey, listDef, item, index) {
+function createListItem(sectionKey, listDef, item, index, totalCount) {
   const el = document.createElement('div');
   el.className = 'admin-list-item';
   el.dataset.index = index;
@@ -645,13 +645,23 @@ function createListItem(sectionKey, listDef, item, index) {
   const title = item[titleField?.key] || `Élément ${index + 1}`;
   const desc = item[descField?.key] || '';
 
+  // Compact mode for simple lists (single text field, no images)
+  const isCompact = listDef.fields.length === 1 && !imageField;
+  if (isCompact) el.classList.add('admin-list-item--compact');
+
   el.innerHTML = `
     ${thumbHtml}
     <div class="admin-list-item-body">
       <div class="admin-list-item-title">${esc(title)}</div>
-      ${desc ? `<div class="admin-list-item-desc">${esc(desc)}</div>` : ''}
+      ${!isCompact && desc ? `<div class="admin-list-item-desc">${esc(desc)}</div>` : ''}
     </div>
     <div class="admin-actions">
+      <button type="button" class="admin-btn-icon" title="Monter" data-action="move-up" ${index === 0 ? 'disabled' : ''}>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
+      </button>
+      <button type="button" class="admin-btn-icon" title="Descendre" data-action="move-down" ${index >= totalCount - 1 ? 'disabled' : ''}>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
       <button type="button" class="admin-btn-icon" title="Modifier" data-action="edit">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
       </button>
@@ -664,6 +674,22 @@ function createListItem(sectionKey, listDef, item, index) {
   // Bind actions
   el.querySelector('[data-action="edit"]').addEventListener('click', () => {
     openListItemEditor(el, sectionKey, listDef, index);
+  });
+
+  el.querySelector('[data-action="move-up"]').addEventListener('click', () => {
+    if (index === 0) return;
+    const arr = getNestedValue(content, `${sectionKey}.${listDef.key}`) || [];
+    [arr[index - 1], arr[index]] = [arr[index], arr[index - 1]];
+    const container = el.closest('[data-list-key]');
+    refreshList(container, sectionKey, listDef);
+  });
+
+  el.querySelector('[data-action="move-down"]').addEventListener('click', () => {
+    const arr = getNestedValue(content, `${sectionKey}.${listDef.key}`) || [];
+    if (index >= arr.length - 1) return;
+    [arr[index], arr[index + 1]] = [arr[index + 1], arr[index]];
+    const container = el.closest('[data-list-key]');
+    refreshList(container, sectionKey, listDef);
   });
 
   el.querySelector('[data-action="delete"]').addEventListener('click', () => {
@@ -790,7 +816,7 @@ function refreshList(container, sectionKey, listDef) {
   const listEl = container.querySelector('.admin-list-items');
   listEl.innerHTML = '';
   arr.forEach((item, index) => {
-    listEl.appendChild(createListItem(sectionKey, listDef, item, index));
+    listEl.appendChild(createListItem(sectionKey, listDef, item, index, arr.length));
   });
   // Update count
   const countEl = container.querySelector('.text-xs.text-light');
