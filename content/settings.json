@@ -147,5 +147,18 @@
     "business_name": "Audrey Stypulkowski, T.S.",
     "credentials": "Membre de l'OTSTCFQ — No. XXXXX",
     "privacy_link": ""
+  },
+  "colors": {
+    "primary": "#2a7d6e",
+    "primary_dark": "#1e5c51",
+    "primary_light": "#e6f2ef",
+    "accent": "#c4654a",
+    "accent_dark": "#a8503a",
+    "text": "#1a1a2e",
+    "text_light": "#6b7280",
+    "bg": "#ffffff",
+    "bg_light": "#f8f9fa",
+    "bg_dark": "#1a1a2e",
+    "border": "#e5e7eb"
   }
 }

@@ -167,6 +167,23 @@ const SECTIONS = [
       { key: 'favicon', label: 'Favicon', type: 'image', hint: 'Petite icône affichée dans l\'onglet du navigateur. Format SVG ou PNG carré recommandé (32x32px ou SVG).' },
     ],
   },
+  {
+    key: 'colors',
+    label: 'Couleurs du site',
+    fields: [
+      { key: 'primary', label: 'Couleur principale', type: 'color', hint: 'Couleur dominante du site : liens, boutons secondaires, accents visuels (ex: vert forêt).' },
+      { key: 'primary_dark', label: 'Couleur principale foncée', type: 'color', hint: 'Variante plus foncée de la couleur principale, utilisée pour les survols et les contrastes.' },
+      { key: 'primary_light', label: 'Couleur principale claire', type: 'color', hint: 'Variante très claire de la couleur principale, utilisée pour les arrière-plans subtils.' },
+      { key: 'accent', label: 'Couleur d\'accent', type: 'color', hint: 'Couleur vive pour les boutons d\'action principaux et les éléments à mettre en valeur (ex: orange, corail).' },
+      { key: 'accent_dark', label: 'Couleur d\'accent foncée', type: 'color', hint: 'Variante plus foncée de la couleur d\'accent, utilisée au survol des boutons principaux.' },
+      { key: 'text', label: 'Texte principal', type: 'color', hint: 'Couleur du texte courant et des titres. Un ton foncé pour une bonne lisibilité.' },
+      { key: 'text_light', label: 'Texte secondaire', type: 'color', hint: 'Couleur du texte moins important : descriptions, indices, mentions légales.' },
+      { key: 'bg', label: 'Arrière-plan', type: 'color', hint: 'Couleur de fond principale du site (généralement blanc ou très clair).' },
+      { key: 'bg_light', label: 'Arrière-plan alternatif', type: 'color', hint: 'Couleur de fond légèrement différente pour alterner les sections et créer du contraste.' },
+      { key: 'bg_dark', label: 'Arrière-plan foncé', type: 'color', hint: 'Couleur de fond sombre utilisée pour le pied de page et les zones foncées.' },
+      { key: 'border', label: 'Bordures', type: 'color', hint: 'Couleur des bordures et séparateurs entre les éléments.' },
+    ],
+  },
 ];
 
 // ============================================================================
@@ -451,6 +468,29 @@ function createField(sectionKey, fieldDef, value) {
       const fileInput = group.querySelector('input[type="file"]');
       if (fileInput) {
         fileInput.addEventListener('change', handleImageSelect);
+      }
+    }, 0);
+  } else if (fieldDef.type === 'color') {
+    const colorId = `color-${dataPath.replace(/\./g, '-')}`;
+    group.innerHTML = `
+      <label class="admin-label">${esc(fieldDef.label)}</label>
+      ${hintHtml(fieldDef)}
+      <div class="flex items-center gap-3" style="margin-top: var(--space-2);">
+        <input type="color" class="admin-color-picker" id="${colorId}-picker" value="${esc(value || '#000000')}">
+        <input type="text" class="input admin-color-text" data-path="${dataPath}" id="${colorId}-text" value="${esc(value || '')}" style="max-width: 8rem; font-family: monospace;" placeholder="#000000">
+      </div>
+    `;
+    setTimeout(() => {
+      const picker = group.querySelector(`#${colorId}-picker`);
+      const text = group.querySelector(`#${colorId}-text`);
+      if (picker && text) {
+        picker.addEventListener('input', () => { text.value = picker.value; });
+        text.addEventListener('input', () => {
+          if (/^#[0-9a-fA-F]{6}$/.test(text.value)) picker.value = text.value;
+        });
+        text.addEventListener('blur', () => {
+          if (text.value && !/^#[0-9a-fA-F]{3,8}$/.test(text.value)) text.value = picker.value;
+        });
       }
     }, 0);
   } else if (fieldDef.plain) {

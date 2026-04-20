@@ -32,6 +32,25 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 
+  <!-- Color overrides from admin settings -->
+  {{#if colors.primary}}
+  <style>
+    :root {
+      --color-primary: {{colors.primary}};
+      --color-primary-dark: {{colors.primary_dark}};
+      --color-primary-light: {{colors.primary_light}};
+      --color-accent: {{colors.accent}};
+      --color-accent-dark: {{colors.accent_dark}};
+      --color-text: {{colors.text}};
+      --color-text-light: {{colors.text_light}};
+      --color-bg: {{colors.bg}};
+      --color-bg-light: {{colors.bg_light}};
+      --color-bg-dark: {{colors.bg_dark}};
+      --color-border: {{colors.border}};
+    }
+  </style>
+  {{/if}}
+
   <!-- JSON-LD Structured Data -->
   <script type="application/ld+json">
   {
