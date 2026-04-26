@@ -117,64 +117,27 @@
   "education": {
     "admin_label": "Mesures légales",
     "heading": "Mesures légales",
-    "items": [
-      {
-        "title": "Ouverture de tutelle",
-        "description": "L'ouverture d'une tutelle permet de protéger une personne inapte en nommant un tuteur responsable de ses droits et de son bien-être. L'évaluation psychosociale est une étape essentielle de ce processus, car elle permet au tribunal de prendre une décision éclairée.\n\n- Évaluation de l'aptitude de la personne\n- Recommandations sur le choix du tuteur\n- Rapport détaillé pour le tribunal",
-        "image": "/assets/images/edu-1.jpg",
-        "cta_text": "En savoir plus",
-        "cta_link": "#contact"
-      },
-      {
-        "title": "Régime de protection",
-        "description": "Le régime de protection vise à assurer la sécurité et le respect des droits d'une personne majeure inapte. Selon la gravité de l'inaptitude, différentes mesures peuvent être mises en place : curatelle, tutelle ou conseiller au majeur.\n\n- Évaluation du degré d'inaptitude\n- Recommandation du régime le plus adapté\n- Accompagnement tout au long du processus",
-        "image": "/assets/images/edu-2.jpg",
-        "cta_text": "En savoir plus",
-        "cta_link": "#contact"
-      },
-      {
-        "title": "Garde d'enfants et droits d'accès",
-        "description": "Lors d'une séparation, la question de la garde des enfants est souvent la plus délicate. L'évaluation psychosociale permet de déterminer les modalités de garde et de droits d'accès qui servent le mieux l'intérêt de l'enfant.\n\n- Évaluation des capacités parentales\n- Analyse du milieu de vie de chaque parent\n- Recommandations centrées sur l'intérêt de l'enfant",
-        "image": "/assets/images/edu-3.jpg",
-        "cta_text": "En savoir plus",
-        "cta_link": "#contact"
-      },
-      {
-        "title": "Adoption et retrouvailles",
-        "description": "Que ce soit pour une démarche d'adoption ou un processus de retrouvailles avec un membre de la famille biologique, un accompagnement psychosocial professionnel peut faciliter cette transition importante et chargée d'émotions.\n\n- Évaluation psychosociale pour l'adoption\n- Soutien lors des retrouvailles\n- Accompagnement des familles d'accueil",
-        "image": "/assets/images/edu-4.jpg",
-        "cta_text": "En savoir plus",
-        "cta_link": "#contact"
-      }
-    ]
+    "items": []
   },
   "faq": {
     "admin_label": "FAQ",
     "heading": "Questions fréquentes",
     "items": [
       {
-        "question": "Qu'est-ce qu'une évaluation psychosociale ?",
-        "answer": "Une évaluation psychosociale est un processus professionnel qui permet d'analyser la situation d'une personne ou d'une famille dans son contexte global. Elle comprend des entrevues, des observations et parfois des consultations avec d'autres professionnels. Le rapport qui en découle présente des conclusions et des recommandations qui peuvent être utilisées dans un cadre juridique ou pour orienter une intervention."
-      },
-      {
-        "question": "Combien de séances sont nécessaires pour une évaluation ?",
-        "answer": "Le nombre de séances varie selon la complexité de la situation. En général, une évaluation psychosociale nécessite entre **3 et 6 rencontres** réparties sur quelques semaines. Lors de notre premier contact, je pourrai vous donner une estimation plus précise en fonction de votre situation particulière."
-      },
-      {
         "question": "Est-ce que les services sont couverts par les assurances ?",
-        "answer": "Plusieurs régimes d'assurances collectives couvrent les services d'un travailleur social membre de l'OTSTCFQ. Je vous recommande de vérifier auprès de votre assureur les modalités de votre couverture. Des reçus pour fins d'assurance sont émis après chaque consultation."
+        "answer": "Certains régimes d'assurances collectives couvrent les services d'une infirmière membre de l'OIIQ. Je vous recommande de vérifier auprès de votre assureur les modalités de votre couverture. Des reçus pour fins d'assurance et/ou d'impôts sont émis après chaque consultation."
       },
       {
-        "question": "Comment se déroule une médiation familiale ?",
-        "answer": "La médiation familiale se déroule en plusieurs étapes :\n\n- Une séance d'information gratuite pour comprendre le processus\n- Des séances de négociation où chaque partie exprime ses besoins\n- La rédaction d'un résumé des ententes convenues\n\nLe processus est **volontaire et confidentiel**. Les couples admissibles bénéficient de séances gratuites couvertes par le ministère de la Justice du Québec."
+        "question": "Comment se déroule une première rencontre ?",
+        "answer": "Les rencontres se déroulent en plusieurs étapes :\n\n- Prise de contact et évaluation de vos besoins\n- Des séances de suivi à votre rythme"
       },
       {
         "question": "Offrez-vous des consultations en ligne ?",
-        "answer": "Oui, j'offre des consultations par visioconférence sécurisée pour les personnes qui ne peuvent pas se déplacer ou qui résident à l'extérieur de la région des Laurentides. Les séances en ligne se déroulent avec la même rigueur et la même confidentialité que les rencontres en personne."
+        "answer": "Oui, j'offre uniquement les suivis par visioconférence sécurisée pour les personnes qui ne peuvent pas se déplacer ou qui résident à l'étranger. \nLes séances en ligne se déroulent avec la même rigueur et la même confidentialité que les rencontres en personne.\nNB: les deux premières séances se font obligatoirement en présentiel."
       },
       {
         "question": "Quelle est la différence entre un travailleur social et un psychologue ?",
-        "answer": "Le travailleur social et le psychologue sont deux professionnels de la relation d'aide qui se complètent. Le travailleur social adopte une approche qui tient compte de l'ensemble des facteurs sociaux, familiaux et environnementaux qui influencent la situation d'une personne. Il est particulièrement qualifié pour les évaluations psychosociales, la médiation familiale et l'intervention auprès des familles. Le psychologue se concentre davantage sur les processus mentaux et les troubles psychologiques."
+        "answer": "Linfirmière en parentalité le travailleur social et le psychologue sont des professionnels de la relation d'aide qui se complètent.\nLe psychologue se concentre davantage sur les processus mentaux et les troubles psychologiques.\nL'infirmière adopte une approche qui tient compte de l'ensemble des facteurs bio, psycho, sociaux, familiaux et environnementaux qui influencent la situation d'une personne. \nL'infirmière est particulièrement qualifiée pour l'intervention auprès des familles et vulgariser les notions scientifiques. \n"
       }
     ]
   },
