@@ -45,22 +45,52 @@
     "link_text": "En savoir plus",
     "items": [
       {
-        "title": "Évaluation psychosociale",
-        "description": "Une évaluation approfondie de votre situation familiale, sociale et psychologique afin de formuler des recommandations adaptées à vos besoins. Ce rapport professionnel est reconnu par les tribunaux et les organismes gouvernementaux.",
+        "title": "Saine gestion des émotions",
+        "description": "",
         "image": "/assets/images/service-1.jpg",
         "link": "#contact"
       },
       {
-        "title": "Médiation familiale",
-        "description": "Un processus volontaire et confidentiel qui vous aide à trouver des ententes mutuellement satisfaisantes lors d'une séparation ou d'un divorce. La médiation favorise la communication et préserve les liens familiaux, en particulier pour le bien-être des enfants.",
+        "title": "Soutien dans le rôle et les habiletés parentales (coaching parental et famille élargie)",
+        "description": "",
         "image": "/assets/images/service-2.jpg",
         "link": "#contact"
       },
       {
-        "title": "Consultation psychosociale",
-        "description": "Un accompagnement personnalisé pour traverser des périodes difficiles : conflits familiaux, adaptation au changement, difficultés relationnelles ou parentales. Ensemble, nous identifions des solutions concrètes et durables.",
+        "title": "Dynamique familiale et relation parent-enfant",
+        "description": "",
         "image": "/assets/images/service-3.jpg",
         "link": "#contact"
+      },
+      {
+        "title": "Soutien dans les routines (sommeil, transitions, devoirs…)",
+        "description": "",
+        "link": ""
+      },
+      {
+        "title": "Cadre, règles, limites et respect des consignes",
+        "description": "",
+        "link": ""
+      },
+      {
+        "title": "Recommandations pour la maison et l’école",
+        "description": "",
+        "link": ""
+      },
+      {
+        "title": "Bien-être familial",
+        "description": "",
+        "link": ""
+      },
+      {
+        "title": "Adoption",
+        "description": "",
+        "link": ""
+      },
+      {
+        "title": "Accompagnement du deuil",
+        "description": "",
+        "link": ""
       }
     ]
   },
@@ -200,7 +230,7 @@
         "title": "Bien-être familial"
       },
       {
-        "title": "Accompagnement du deuil"
+        "title": "Adoption"
       },
       {
         "title": "Accompagnement du deuil"
